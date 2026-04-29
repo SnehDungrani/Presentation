@@ -84,7 +84,8 @@ body {
     max-height: 100%;
     overflow: hidden;
     gap: var(--content-gap);
-    margin-top: clamp(2.5rem, 6vh, 4rem); /* space for header chrome */
+    margin-top: clamp(2.5rem, 6vh, 4rem);
+    /* space for header chrome */
 }
 
 @media (max-height: 700px) {
@@ -1426,7 +1427,7 @@ kbd {
 }
 
 .arch-callout {
-    margin-top: calc(var(--element-gap) * 0.3);
+    margin-top: calc(var(--element-gap) * 0.1);
     background: color-mix(in srgb, var(--violet) 8%, var(--bg-panel));
     border: 1px solid color-mix(in srgb, var(--violet) 30%, transparent);
     border-left: 3px solid var(--violet);
