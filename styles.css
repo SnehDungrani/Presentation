@@ -1427,7 +1427,7 @@ kbd {
 }
 
 .arch-callout {
-    margin-top: calc(var(--element-gap) * 0.1);
+    margin-top: calc(var(--element-gap) * 0.05) !important;
     background: color-mix(in srgb, var(--violet) 8%, var(--bg-panel));
     border: 1px solid color-mix(in srgb, var(--violet) 30%, transparent);
     border-left: 3px solid var(--violet);
