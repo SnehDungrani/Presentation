@@ -18,7 +18,7 @@
 
     --green: #2da44e;
     --green-glow: rgba(45, 164, 78, 0.18);
-    --amber: #bf8700;
+    --amber: #8a6300; /* darkened from #bf8700 for WCAG 4.5:1 contrast on cream bg */
     --magenta: #bf3989;
     --cyan: #0969da;
     --red: #cf222e;
@@ -1266,7 +1266,7 @@ kbd {
 }
 
 .phase.active {
-    --phase-color: #d9a31a;
+    --phase-color: var(--amber);
 }
 
 .phase.pending {
@@ -1364,7 +1364,7 @@ kbd {
     border-radius: 2px;
     background: linear-gradient(90deg,
             #2da44e 0%, #2da44e 33%,
-            #d9a31a 33%, #d9a31a 66%,
+            var(--amber) 33%, var(--amber) 66%,
             #e1e4e8 66%);
     position: relative;
     max-width: 480px;
@@ -1378,9 +1378,9 @@ kbd {
     width: 14px;
     height: 14px;
     border-radius: 50%;
-    background: #d9a31a;
+    background: var(--amber);
     border: 2px solid #fff;
-    box-shadow: 0 0 0 2px #d9a31a;
+    box-shadow: 0 0 0 2px var(--amber);
 }
 
 /* ===========================================

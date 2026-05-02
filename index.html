@@ -100,19 +100,72 @@
       /* Slide 4 only: fit content without affecting any other slide */
       #arch-slide-fix .slide-content {
         justify-content: flex-start;
-        gap: 0.8rem;
+        gap: clamp(0.6rem, 1.5vh, 1.2rem);
+        padding-top: clamp(1.5rem, 4.5vh, 3rem) !important;
       }
       #arch-slide-fix .section-title {
-        margin-bottom: 0.4rem;
+        margin-bottom: 0.2rem;
       }
       #arch-slide-fix .arch {
-        padding: 0.65rem 1rem;
+        padding: 0.5rem 1rem;
       }
       #arch-slide-fix .arch-svg {
-        max-height: clamp(220px, 38vh, 380px);
+        max-height: clamp(180px, 34vh, 340px);
       }
       #arch-slide-fix .arch-callout {
         margin-top: 0;
+        padding: 0.8rem 1.2rem !important;
+        font-size: clamp(0.75rem, 1.1vw, 0.9rem) !important;
+        line-height: 1.4 !important;
+      }
+
+      /* Slide 3 (Ultimate Goal) fit fix */
+      #goal-slide-fix .slide-content {
+        margin-top: clamp(1.5rem, 4vh, 2.5rem);
+        justify-content: flex-start;
+        gap: clamp(0.4rem, 1vw, 0.8rem);
+      }
+      #goal-slide-fix .section-title {
+        margin-bottom: 0.2rem;
+      }
+      #goal-slide-fix p.muted {
+        font-size: clamp(0.75rem, 1.1vw, 0.95rem);
+        line-height: 1.5;
+        max-width: 72ch !important;
+      }
+      #goal-slide-fix .diagram-frame {
+        margin-top: 0.5rem;
+        max-height: clamp(240px, 48vh, 480px);
+      }
+      #goal-slide-fix .diagram-frame object,
+      #goal-slide-fix .diagram-frame img {
+        max-height: clamp(220px, 44vh, 440px);
+      }
+
+      /* Lightbox refinement for Slide 3 */
+      .lightbox {
+        align-items: flex-start !important; /* Priority: Top visibility */
+        justify-content: center !important;
+        padding-top: clamp(6rem, 15vh, 10rem) !important; /* Push top down to clear button */
+        overflow: hidden !important; /* "Crop from bottom" if too tall */
+      }
+      .lightbox object,
+      .lightbox img {
+        max-height: 200vh !important; /* Allow vertical overflow to be cropped at bottom */
+        max-width: 95vw !important;
+        transform: none !important;
+        margin: 0 auto !important;
+      }
+      .lightbox .close-hint {
+        z-index: 10001 !important;
+        background: rgba(255, 255, 255, 0.2) !important;
+        border: 1px solid rgba(255, 255, 255, 0.5) !important;
+        color: #ffffff !important;
+        padding: 0.5rem 1rem !important;
+        border-radius: 6px !important;
+        opacity: 1 !important;
+        display: block !important;
+        pointer-events: auto !important;
       }
 
       /* ===========================================
@@ -126,15 +179,17 @@
       .intro-slide .slide-content {
         justify-content: flex-start;
         gap: clamp(0.5rem, 1.2vw, 1rem);
+        overflow: visible; /* Prevent clipping of orbiting animations */
       }
 
       .intro-grid {
         display: grid;
-        grid-template-columns: 1.05fr 1fr;
-        gap: clamp(0.8rem, 2.5vw, 2.4rem);
+        grid-template-columns: 1.5fr 1fr;
+        gap: clamp(2rem, 5vw, 5rem);
         align-items: center;
         flex: 1;
         min-height: 0;
+        overflow: visible;
       }
       @media (max-width: 720px) {
         .intro-grid {
@@ -156,10 +211,10 @@
         gap: clamp(0.5rem, 1.1vw, 0.9rem);
       }
       .intro-story p {
-        font-size: clamp(0.85rem, 1.35vw, 1.1rem);
-        line-height: 1.65;
+        font-size: clamp(0.8rem, 1.25vw, 1.05rem);
+        line-height: 1.55;
         color: var(--text-secondary);
-        max-width: 56ch;
+        max-width: 65ch;
       }
       .intro-story p strong {
         color: var(--text-primary);
@@ -170,12 +225,12 @@
         font-weight: 600;
       }
 
-      .intro-traits {
+       .intro-traits {
         list-style: none;
         display: grid;
         grid-template-columns: 1fr 1fr;
-        gap: clamp(0.4rem, 1vw, 0.8rem);
-        margin-top: var(--element-gap);
+        gap: clamp(0.3rem, 0.8vw, 0.6rem);
+        margin-top: calc(0.5 * var(--element-gap));
       }
       .intro-traits li {
         font-family: var(--font-mono);
@@ -191,10 +246,10 @@
 
       .intro-pivot {
         font-family: var(--font-display);
-        font-size: clamp(0.95rem, 1.5vw, 1.2rem);
-        line-height: 1.55;
+        font-size: clamp(0.9rem, 1.4vw, 1.15rem);
+        line-height: 1.45;
         color: var(--text-primary);
-        margin-top: var(--element-gap);
+        margin-top: calc(0.5 * var(--element-gap));
         padding-left: clamp(0.6rem, 1.2vw, 1rem);
         border-left: 3px solid var(--green);
       }
@@ -205,14 +260,15 @@
         display: flex;
         align-items: center;
         justify-content: center; /* center inside the right column */
-        margin-top: -0.65rem; /* lift moon+orbit slightly */
+        margin-top: -1rem; /* lift moon+orbit slightly */
         justify-self: center; /* center the whole moon block inside the right grid cell */
-        /* Padding leaves headroom for outer orbit ring + satellite dot
-           so they don't get clipped by slide overflow:hidden. */
-        padding: clamp(1.3rem, 2.6vw, 2.35rem);
+        /* Padding leaves enough headroom for the dots, while overflow:visible 
+           handles anything that might still reach the edge. */
+        padding: clamp(1.5rem, 4vw, 3rem);
         aspect-ratio: 1;
         max-height: 100%;
         min-height: 0;
+        overflow: visible;
       }
 
       /* Inner circular frame holding the image. Layered shadows give
@@ -222,8 +278,8 @@
         position: relative;
         width: 100%;
         height: 100%;
-        max-width: clamp(220px, 28vw, 380px);
-        max-height: clamp(220px, 28vw, 380px);
+        max-width: clamp(240px, 32vw, 420px);
+        max-height: clamp(240px, 32vw, 420px);
         aspect-ratio: 1;
         /* Keep the porthole centered inside its container. */
         margin-left: auto;
@@ -437,22 +493,25 @@
         <div class="intro-grid">
           <div class="intro-story reveal">
             <p>
-              Multiple actors, all doing their designated tasks. Robots that
-              move material, robots that build, robots that grow food, rovers
-              that scout the surface.
-              <strong
-                >Different jobs, different expertise, all working in the same
-                place at the same time.</strong
-              >
+              The actors on the floor are <strong>robotic arms, shuttle
+              vehicles, and conveyor belts</strong>. Each one does its own job:
+              arms pick and place, shuttles move parts between zones, belts
+              carry parts across longer distances.
+            </p>
+
+            <p>
+              <span class="green-accent">These actors are autonomous</span> -
+              no human issues commands, and each one decides for itself what
+              to do next. <strong>Different jobs, different expertise, all
+              working in the same place at the same time.</strong>
             </p>
 
             <p>
               With the current approach, you would need
               <strong>one central unit</strong> to handle and combine every
               behaviour. That works fine on a small or mid-size scenario. The
-              moment you add more units, it falls over.
-              <span class="green-accent">One brain can't keep up</span> with the
-              compute that many actors demand.
+              moment you add more units, it falls over. A single controller
+              compounds every one of the constraints below.
             </p>
 
             <ul class="intro-traits">
@@ -492,7 +551,7 @@
      SLIDE 3 - ULTIMATE GOAL
      Image 1 (multi-asset factory floor) + Image 2 (Before vs INTER.act)
      ============================================= -->
-    <section class="slide">
+    <section class="slide" id="goal-slide-fix">
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
@@ -503,14 +562,23 @@
       <div class="slide-content">
         <p class="eyebrow reveal">Ultimate goal</p>
         <h2 class="section-title reveal">
-          One central brain <span style="color: var(--text-dim)">→</span>
+          One central controller <span style="color: var(--text-dim)">→</span>
           <span style="color: var(--green)">brains that negotiate</span>
         </h2>
 
         <p class="reveal muted" style="max-width: 80ch">
-          Right now every decision flows through one central controller. We want
-          every arm and every asset to reason on its own and work out handovers
-          with their neighbours directly.
+          Today every decision flows through one deterministic central
+          controller - no intelligence, no autonomy. In INTER.act, every arm
+          and every asset reasons on its own and works out handovers with its
+          neighbours directly.
+        </p>
+
+        <p class="reveal muted" style="max-width: 80ch">
+          The <strong>main brain</strong> is an
+          <span class="green-accent">emergent orchestrator and observer</span>.
+          It delegates the overall goal and watches what happens. It does not
+          control execution and does not manage individual capabilities - the
+          peers handle that between themselves.
         </p>
 
         <!-- Today vs INTER.act diagram - click to enlarge -->
@@ -534,20 +602,7 @@
           </object>
         </div>
 
-        <div
-          class="lightbox"
-          id="lightbox"
-          role="dialog"
-          aria-modal="true"
-          aria-label="Diagram enlarged"
-        >
-          <span class="close-hint">esc to close</span>
-          <object
-            type="image/svg+xml"
-            data="assets/today-vs-interact.svg"
-            aria-label="Today versus INTER.act architecture diagram (enlarged)"
-          ></object>
-        </div>
+
       </div>
 
       <div class="slide-number">03<span class="of"> / 09</span></div>
@@ -568,7 +623,7 @@
         <p class="eyebrow reveal">Project phases</p>
         <h2 class="section-title reveal">
           Three epics <span style="color: var(--text-dim)">·</span>
-          <span style="color: #d9a31a">we are here</span>
+          <span style="color: var(--amber)">we are here</span>
         </h2>
         <p
           class="reveal dim"
@@ -590,10 +645,11 @@
             </div>
             <h3>Simulation</h3>
             <p>
-              A factory floor in the browser. Arms, shuttles, and conveyors,
-              live state, a fail/recover lifecycle, one container per station.
-              The base is solid, but we're still adding to it. A Node-RED style
-              builder is what's next.
+              A virtual factory floor with arms, shuttles, and conveyors. Live
+              state, a fail/recover lifecycle, and one
+              <em>Docker container</em> per station (one isolated service for
+              every actor). The base is solid; a Node-RED style builder is
+              what's next.
             </p>
             <span class="phase-tag">Sprint 1-2 · iterating</span>
           </div>
@@ -606,7 +662,11 @@
             <h3>AI integration</h3>
             <p>
               A local LLM (Qwen 2.5 on Ollama) is wired into the stack. The
-              first brain handles routing. After that, every arm gets its own.
+              <strong>main brain</strong> handles routing for now
+              <em
+                >(transitional scaffolding - per-arm autonomy takes over in
+                Phase 03)</em
+              >. After that, every arm gets its own brain.
             </p>
             <span class="phase-tag">Sprint 3 · active</span>
           </div>
@@ -616,10 +676,11 @@
               <span class="phase-num">Phase 03</span>
               <span class="phase-status" aria-label="not started">○</span>
             </div>
-            <h3>Asset communication</h3>
+            <h3>Actor coordination</h3>
             <p>
-              Arms and assets work out handovers between themselves. The main
-              brain only steps in when its peers get stuck.
+              Arms and assets <em>(mobile actors: shuttle vehicles and
+              conveyor belts)</em> work out handovers between themselves. The
+              main brain only steps in when peers get stuck.
             </p>
             <span class="phase-tag">Sprint 4+ · next up</span>
           </div>
@@ -647,8 +708,24 @@
       </header>
 
       <div class="slide-content">
-        <p class="eyebrow reveal">Architecture</p>
+        <p class="eyebrow reveal">
+          Architecture <span style="color: var(--text-dim)">·</span>
+          <span style="color: var(--amber)"
+            >Phase 1 baseline (centralized)</span
+          >
+        </p>
         <h2 class="section-title reveal">Backend is the source of truth</h2>
+        <p
+          class="reveal dim"
+          style="
+            font-family: var(--font-mono);
+            font-size: var(--small-size);
+            margin-top: calc(-1 * var(--element-gap));
+          "
+        >
+          Foundation for INTER.act - stepping stone, not the destination. The
+          target architecture in Phase 03 has direct peer-to-peer paths.
+        </p>
 
         <!-- Reanalysed against claude.md, AI_Integration_Summary.md, run_demo.py:
              ─ Solid arrows = primary channel: every container registers state /
@@ -949,7 +1026,7 @@
                 height="80"
                 rx="10"
                 fill="#fdf6e3"
-                stroke="#bf8700"
+                stroke="#8a6300"
                 stroke-width="1.5"
               />
               <text
@@ -959,7 +1036,7 @@
                 font-family="'Space Grotesk', sans-serif"
                 font-size="20"
                 font-weight="600"
-                fill="#bf8700"
+                fill="#8a6300"
               >
                 veh-* / conv-*
               </text>
@@ -1405,14 +1482,19 @@
             <ul>
               <li>
                 Qwen 2.5 (0.5B) on Ollama is already wired in, hitting 88.9% on
-                routing.
+                routing - state machines deadlock when peers wait on each
+                other; LLM negotiation breaks the deadlock.
               </li>
               <li>Each arm gets its own brain that thinks locally.</li>
               <li>
-                Arm-to-arm and arm-to-asset negotiation; per-module constraint
-                discovery.
+                Each actor advertises what it can reach and offer - chains
+                self-assemble through peer requests, with no central authority
+                assigning roles.
               </li>
-              <li>Negative tests for when the brain hallucinates.</li>
+              <li>
+                Negative tests: routing deadlocks, failed handovers, fallback
+                to deterministic script when the LLM stalls.
+              </li>
             </ul>
           </div>
         </div>
@@ -1455,6 +1537,21 @@
 
       <div class="slide-number">09<span class="of"> / 09</span></div>
     </section>
+
+    <div
+      class="lightbox"
+      id="lightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Diagram enlarged"
+    >
+      <span class="close-hint">esc to close</span>
+      <object
+        type="image/svg+xml"
+        data="assets/today-vs-interact.svg"
+        aria-label="Today versus INTER.act architecture diagram (enlarged)"
+      ></object>
+    </div>
 
     <script>
       /* Combined-view controller - observer + dots + keys + progress */
