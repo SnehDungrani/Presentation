@@ -266,7 +266,7 @@
         font-weight: 600;
       }
 
-       .intro-traits {
+      .intro-traits {
         list-style: none;
         display: grid;
         grid-template-columns: 1fr 1fr;
@@ -350,52 +350,55 @@
         z-index: 3;
       }
 
-      .intro-warehouse-orbit {
+      /* Peer-mesh decoration: 8 actor nodes around the warehouse,
+         connected by faint chord lines. Reinforces the INTER.act
+         coordination metaphor instead of planet-orbit imagery. */
+      .intro-warehouse-mesh {
         position: absolute;
-        inset: -24px;
-        border-radius: 50%;
-        border: 1px dashed rgba(45, 164, 78, 0.55);
-        animation: orbit-spin 28s linear infinite;
+        inset: -34px;
         pointer-events: none;
         z-index: 1;
+        overflow: visible;
       }
-      .intro-warehouse-orbit::before {
-        content: "";
-        position: absolute;
-        width: 11px;
-        height: 11px;
-        background: var(--green);
-        border-radius: 50%;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        box-shadow:
-          0 0 14px var(--green),
-          0 0 26px rgba(45, 164, 78, 0.55);
+      .intro-warehouse-mesh circle.node {
+        fill: var(--green);
+        filter: drop-shadow(0 0 4px rgba(45, 164, 78, 0.7));
       }
-      .intro-warehouse-orbit.outer {
-        inset: -42px;
-        border-style: dotted;
-        border-color: rgba(45, 164, 78, 0.33);
-        animation-duration: 64s;
-        animation-direction: reverse;
+      .intro-warehouse-mesh circle.node.pulse {
+        animation: mesh-pulse 2.4s var(--ease) infinite;
+        transform-box: fill-box;
+        transform-origin: center;
       }
-      .intro-warehouse-orbit.outer::before {
-        width: 7px;
-        height: 7px;
-        top: 0;
-        left: 50%;
-        transform: translateX(-50%) translateY(-50%);
-        background: rgba(45, 164, 78, 0.85);
-        box-shadow: 0 0 10px rgba(45, 164, 78, 0.7);
+      .intro-warehouse-mesh circle.node.pulse-2 {
+        animation-delay: 0.8s;
       }
-      @keyframes orbit-spin {
-        to {
-          transform: rotate(360deg);
+      .intro-warehouse-mesh circle.node.pulse-3 {
+        animation-delay: 1.6s;
+      }
+      .intro-warehouse-mesh line.chord {
+        stroke: rgba(45, 164, 78, 0.28);
+        stroke-width: 0.5;
+        stroke-dasharray: 2 2;
+      }
+      .intro-warehouse-mesh circle.ring {
+        fill: none;
+        stroke: rgba(45, 164, 78, 0.22);
+        stroke-width: 0.4;
+        stroke-dasharray: 1 3;
+      }
+      @keyframes mesh-pulse {
+        0%,
+        100% {
+          transform: scale(1);
+          opacity: 0.85;
+        }
+        50% {
+          transform: scale(1.6);
+          opacity: 1;
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .intro-warehouse-orbit {
+        .intro-warehouse-mesh circle.node.pulse {
           animation: none;
         }
       }
@@ -431,7 +434,9 @@
         margin-top: var(--element-gap);
       }
       @media (max-width: 800px) {
-        .intro-cards { grid-template-columns: 1fr; }
+        .intro-cards {
+          grid-template-columns: 1fr;
+        }
       }
       .intro-card {
         padding: 0.85em 1.05em;
@@ -442,8 +447,12 @@
         flex-direction: column;
         gap: 0.4em;
       }
-      .intro-card.problem { border-left: 3px solid var(--magenta); }
-      .intro-card.walk { border-left: 3px solid var(--green); }
+      .intro-card.problem {
+        border-left: 3px solid var(--magenta);
+      }
+      .intro-card.walk {
+        border-left: 3px solid var(--green);
+      }
       .intro-card .label {
         font-family: var(--font-mono);
         font-size: 0.72rem;
@@ -451,15 +460,22 @@
         letter-spacing: 0.08em;
         color: var(--text-dim);
       }
-      .intro-card.problem .label { color: var(--magenta); }
-      .intro-card.walk .label { color: var(--green); }
+      .intro-card.problem .label {
+        color: var(--magenta);
+      }
+      .intro-card.walk .label {
+        color: var(--green);
+      }
       .intro-card p {
         font-size: clamp(0.88rem, 1.25vw, 1rem);
         line-height: 1.55;
         color: var(--text-secondary);
         margin: 0;
       }
-      .intro-card p strong { color: var(--text-primary); font-weight: 600; }
+      .intro-card p strong {
+        color: var(--text-primary);
+        font-weight: 600;
+      }
       .intro-card ul {
         list-style: none;
         margin: 0;
@@ -486,7 +502,6 @@
         font-style: italic;
         color: var(--text-dim);
       }
-
     </style>
   </head>
   <body>
@@ -580,7 +595,8 @@
      ============================================= -->
     <section class="slide intro-page">
       <header class="chrome">
-        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="dot r"></span><span class="dot y"></span
+        ><span class="dot g"></span>
         <span class="path">~/Inter-Act/02-introduction</span>
         <span class="branch"></span>
       </header>
@@ -593,20 +609,23 @@
 
         <p class="reveal lede">
           Inter.act is the <strong>digital twin</strong> of an autonomous robot
-          warehouse where every actor - <strong>arm, vehicle, conveyor</strong> -
-          carries its own small AI brain and self-organizes with its neighbours
-          to complete tasks that no single actor could do alone, instead of
-          waiting for a central controller to tell it what to do.
+          warehouse where every actor -
+          <strong>arm, vehicle, conveyor</strong> - carries its own small AI
+          brain and self-organizes with its neighbours to complete tasks that no
+          single actor could do alone, instead of waiting for a central
+          controller to tell it what to do.
         </p>
 
         <div class="intro-cards reveal">
           <div class="intro-card problem">
             <span class="label">The problem we're working on</span>
             <p>
-              A single central controller <strong>stops scaling</strong> the
-              moment you add a large amount of actors - because of
-              <strong>latency, unreliable links, and the computational
-              power</strong> you would need on a single system.
+              A single central controller <strong>stops scaling</strong> once
+              you add a large amount of actors - because of
+              <strong
+                >latency, unreliable links, and the computational power</strong
+              >
+              demanded from a single system.
             </p>
           </div>
 
@@ -622,8 +641,7 @@
         </div>
       </div>
 
-      <div class="slide-number">
-        02<span class="of"> / 10</span></div>
+      <div class="slide-number">02<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -643,34 +661,38 @@
       <div class="slide-content">
         <p class="eyebrow reveal">Imagine</p>
         <h2 class="section-title reveal">
-          A base in <span style="color: var(--green)">warehouse</span>
+          Inside the <span style="color: var(--green)">warehouse</span>
         </h2>
 
         <div class="intro-grid">
           <div class="intro-story reveal">
             <p>
-              The actors on the floor are <strong>robotic arms, shuttle
-              vehicles, and conveyor belts</strong>. Each one does its own job:
-              arms pick and place, shuttles move parts between zones, belts
-              carry parts across longer distances.
-              <strong>Different jobs, different expertise, all
-              working in the same place at the same time.</strong>
+              The actors on the floor are
+              <strong>robotic arms, shuttle vehicles, and conveyor belts</strong
+              >. Each one does its own job: arms pick and place, shuttles move
+              parts between zones, belts carry parts across longer distances.
+              <strong
+                >Different jobs, different expertise, all working in the same
+                place at the same time.</strong
+              >
             </p>
 
             <p>
               With the current approach, you need
-              <strong>one central controller</strong> that compounds everyone
-              at a constant. That works fine on a small or mid-size scenario.
-              <span class="green-accent">A single controller stops scaling</span>
-              the moment you add a large amount of actors - because of
-              latency, unreliable links, and the computational power you would
-              need on a single system.
+              <strong>one central controller</strong> coordinating every actor
+              at once. That works fine on a small or mid-size setup.
+              <span class="green-accent"
+                >A single controller stops scaling</span
+              >
+              once you add a large amount of actors - because of latency,
+              unreliable links, and the computational power demanded from a
+              single system.
             </p>
 
             <ul class="intro-traits">
               <li>Different actors,<br />different tasks</li>
               <li>Demanding environment,<br />outside influences</li>
-              <li>Latency &amp; unreliable<br />links at distance</li>
+              <li>Latency &amp; unreliable<br />links</li>
               <li>Computation scales<br />exponentially</li>
             </ul>
 
@@ -686,15 +708,38 @@
                 alt="A base in warehouse - multiple actors with their own jobs"
               />
               <span class="intro-warehouse-glass"></span>
-              <span class="intro-warehouse-orbit"></span>
-              <span class="intro-warehouse-orbit outer"></span>
+              <svg
+                class="intro-warehouse-mesh"
+                viewBox="0 0 200 200"
+                aria-hidden="true"
+              >
+                <circle class="ring" cx="100" cy="100" r="98" />
+                <line class="chord" x1="100" y1="2" x2="195.7" y2="138.6" />
+                <line class="chord" x1="195.7" y1="61.4" x2="4.3" y2="138.6" />
+                <line class="chord" x1="198" y1="100" x2="30.7" y2="30.7" />
+                <line
+                  class="chord"
+                  x1="169.3"
+                  y1="169.3"
+                  x2="30.7"
+                  y2="169.3"
+                />
+                <line class="chord" x1="100" y1="198" x2="4.3" y2="61.4" />
+                <circle class="node pulse" cx="100" cy="2" r="3" />
+                <circle class="node" cx="169.3" cy="30.7" r="2.4" />
+                <circle class="node pulse-2" cx="198" cy="100" r="3" />
+                <circle class="node" cx="169.3" cy="169.3" r="2.4" />
+                <circle class="node pulse-3" cx="100" cy="198" r="3" />
+                <circle class="node" cx="30.7" cy="169.3" r="2.4" />
+                <circle class="node pulse" cx="2" cy="100" r="3" />
+                <circle class="node" cx="30.7" cy="30.7" r="2.4" />
+              </svg>
             </div>
           </div>
         </div>
       </div>
 
-      <div class="slide-number">
-        03<span class="of"> / 10</span></div>
+      <div class="slide-number">03<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -719,9 +764,9 @@
 
         <p class="reveal muted" style="max-width: 80ch">
           Today every decision flows through one deterministic central
-          controller - no intelligence, no autonomy. In INTER.act, every
-          actor reasons on its own and works out handovers with its
-          neighbours directly.
+          controller - no intelligence, no autonomy.
+          <br /><br /><strong>BUT</strong> in INTER.act, every actor reasons on
+          its own and works out handovers with its neighbours directly.
         </p>
 
         <!-- Today vs INTER.act diagram - click to enlarge -->
@@ -746,17 +791,19 @@
         </div>
 
         <div class="arch-callout reveal">
-          <strong>Conclusion:</strong> These actors are autonomous - no human
+          <strong>Conclusion:</strong> these actors are autonomous - no human
           issues commands, each one decides for itself what to do next.
-          Peer-to-peer messaging between brains swaps information directly
-          through a shared message bus. Actors negotiate handovers; the
-          observer <strong>sets the goal</strong>, watches state, and never
-          micro-manages.
+          Peer-to-peer messaging between brains swaps information directly on
+          a shared message bus. Actors negotiate handovers; the observer
+          <strong>sets the goal</strong>, watches state, and stays out of the
+          way. This setup is a <strong>foundation</strong> - while shown here
+          in a warehouse, the same coordination model extends naturally to
+          other multi-agent environments such as autonomous drones or even
+          space-based systems.
         </div>
       </div>
 
-      <div class="slide-number">
-        04<span class="of"> / 10</span></div>
+      <div class="slide-number">04<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -798,11 +845,11 @@
             </div>
             <h3>Simulation</h3>
             <p>
-              A virtual factory floor with arms, shuttles, and conveyors. Live
-              state, a fail/recover lifecycle, and one
-              <em>Docker container</em> per actor (one isolated service for
-              every actor). The base is solid; a Node-RED style builder is
-              what's next.
+              A virtual warehouse floor with arms, shuttles, and conveyors.
+              Live state, a fail/recover lifecycle, and one
+              <em>Docker container</em> per actor - one isolated service
+              each. The base is solid; a Node-RED style builder is what's
+              next.
             </p>
             <span class="phase-tag">Sprint 1-2 · iterating</span>
           </div>
@@ -814,9 +861,10 @@
             </div>
             <h3>AI integration</h3>
             <p>
-              A local LLM (Qwen 2.5 on Ollama) is wired into the stack. Every
-              actor gets its own brain. The brain decides <em>when</em> and
-              <em>which</em> script to run; the script handles <em>how</em>.
+              Each actor gets its own small on-device brain running locally via
+              Ollama. The brain interprets messages from the temporary backend
+              and decides <em>when</em> and <em>which</em> script to run; the
+              script handles <em>how</em>.
             </p>
             <span class="phase-tag">Sprint 3 · active</span>
           </div>
@@ -828,8 +876,9 @@
             </div>
             <h3>Actor coordination</h3>
             <p>
-              Actors work out handovers between themselves on a shared message
-              bus. The observer only steps in when peers get stuck.
+              The temporary backend goes away. Actors work out handovers between
+              themselves on a shared message bus; the observer only steps in
+              when peers get stuck.
             </p>
             <span class="phase-tag">Sprint 4+ · next up</span>
           </div>
@@ -842,8 +891,7 @@
         </div>
       </div>
 
-      <div class="slide-number">
-        05<span class="of"> / 10</span></div>
+      <div class="slide-number">05<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -867,7 +915,13 @@
         </p>
         <h2 class="section-title reveal">How the pieces fit together</h2>
 
-        <div class="arch reveal diagram-frame" id="archFrame" role="button" tabindex="0" aria-label="Click to enlarge architecture diagram">
+        <div
+          class="arch reveal diagram-frame"
+          id="archFrame"
+          role="button"
+          tabindex="0"
+          aria-label="Click to enlarge architecture diagram"
+        >
           <span class="zoom-hint">click to zoom ⤢</span>
           <svg
             class="arch-svg"
@@ -877,102 +931,557 @@
             aria-label="Architecture diagram showing frontend, actor-brain pairs, and observer. Green=implemented, amber=in progress, red=planned."
           >
             <defs>
-              <marker id="arch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2da44e"/>
+              <marker
+                id="arch-arrow"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2da44e" />
               </marker>
-              <marker id="arch-arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6300"/>
+              <marker
+                id="arch-arrow-amber"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6300" />
               </marker>
-              <marker id="arch-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf222e"/>
+              <marker
+                id="arch-arrow-red"
+                viewBox="0 0 10 10"
+                refX="9"
+                refY="5"
+                markerWidth="6"
+                markerHeight="6"
+                orient="auto-start-reverse"
+              >
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf222e" />
               </marker>
             </defs>
 
             <!-- ============ TOP: FRONTEND ============ -->
             <g>
-              <rect x="440" y="10" width="220" height="60" rx="10" fill="#f0fff5" stroke="#2da44e" stroke-width="2"/>
-              <text x="550" y="38" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="700" fill="#2da44e">frontend</text>
-              <text x="550" y="56" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7a8087">Canvas + live UI</text>
+              <rect
+                x="440"
+                y="10"
+                width="220"
+                height="60"
+                rx="10"
+                fill="#f0fff5"
+                stroke="#2da44e"
+                stroke-width="2"
+              />
+              <text
+                x="550"
+                y="38"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="18"
+                font-weight="700"
+                fill="#2da44e"
+              >
+                frontend
+              </text>
+              <text
+                x="550"
+                y="56"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="11"
+                fill="#7a8087"
+              >
+                Canvas + live UI
+              </text>
             </g>
 
             <!-- Frontend → actors -->
-            <line x1="470" y1="70" x2="110" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
-            <line x1="500" y1="70" x2="290" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
-            <line x1="530" y1="70" x2="470" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
-            <line x1="570" y1="70" x2="650" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
-            <line x1="600" y1="70" x2="830" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
-            <line x1="630" y1="70" x2="1010" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line
+              x1="470"
+              y1="70"
+              x2="110"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
+            <line
+              x1="500"
+              y1="70"
+              x2="290"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
+            <line
+              x1="530"
+              y1="70"
+              x2="470"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
+            <line
+              x1="570"
+              y1="70"
+              x2="650"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
+            <line
+              x1="600"
+              y1="70"
+              x2="830"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
+            <line
+              x1="630"
+              y1="70"
+              x2="1010"
+              y2="130"
+              stroke="#2da44e"
+              stroke-width="1.5"
+              marker-end="url(#arch-arrow)"
+            />
 
             <!-- ============ MIDDLE: BRAIN + ACTOR PAIRS ============ -->
             <!-- Arm 1 - green -->
             <g>
-              <rect x="40" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
-              <text x="110" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 1</text>
-              <text x="110" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
-              <text x="110" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
+              <rect
+                x="40"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fafbfc"
+                stroke="#2da44e"
+                stroke-width="2"
+              />
+              <text
+                x="110"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#2da44e"
+              >
+                Brain + Arm 1
+              </text>
+              <text
+                x="110"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                arm · on-device brain
+              </text>
+              <text
+                x="110"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#2da44e"
+              >
+                ✓ implemented
+              </text>
             </g>
 
             <!-- Arm 2 - green -->
             <g>
-              <rect x="220" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
-              <text x="290" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 2</text>
-              <text x="290" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
-              <text x="290" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
+              <rect
+                x="220"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fafbfc"
+                stroke="#2da44e"
+                stroke-width="2"
+              />
+              <text
+                x="290"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#2da44e"
+              >
+                Brain + Arm 2
+              </text>
+              <text
+                x="290"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                arm · on-device brain
+              </text>
+              <text
+                x="290"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#2da44e"
+              >
+                ✓ implemented
+              </text>
             </g>
 
             <!-- Shuttle - amber -->
             <g>
-              <rect x="400" y="130" width="140" height="80" rx="10" fill="#fdf6e3" stroke="#8a6300" stroke-width="2"/>
-              <text x="470" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#8a6300">Brain + Shuttle</text>
-              <text x="470" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">vehicle · scripted</text>
-              <text x="470" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8a6300">◐ in progress</text>
+              <rect
+                x="400"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fdf6e3"
+                stroke="#8a6300"
+                stroke-width="2"
+              />
+              <text
+                x="470"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#8a6300"
+              >
+                Brain + Shuttle
+              </text>
+              <text
+                x="470"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                vehicle · scripted
+              </text>
+              <text
+                x="470"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#8a6300"
+              >
+                ◐ in progress
+              </text>
             </g>
 
             <!-- Belt - amber -->
             <g>
-              <rect x="580" y="130" width="140" height="80" rx="10" fill="#fdf6e3" stroke="#8a6300" stroke-width="2"/>
-              <text x="650" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#8a6300">Brain + Belt</text>
-              <text x="650" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">conveyor · scripted</text>
-              <text x="650" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8a6300">◐ in progress</text>
+              <rect
+                x="580"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fdf6e3"
+                stroke="#8a6300"
+                stroke-width="2"
+              />
+              <text
+                x="650"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#8a6300"
+              >
+                Brain + Belt
+              </text>
+              <text
+                x="650"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                conveyor · scripted
+              </text>
+              <text
+                x="650"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#8a6300"
+              >
+                ◐ in progress
+              </text>
             </g>
 
             <!-- Arm 3 - green -->
             <g>
-              <rect x="760" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
-              <text x="830" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 3</text>
-              <text x="830" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
-              <text x="830" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
+              <rect
+                x="760"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fafbfc"
+                stroke="#2da44e"
+                stroke-width="2"
+              />
+              <text
+                x="830"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#2da44e"
+              >
+                Brain + Arm 3
+              </text>
+              <text
+                x="830"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                arm · on-device brain
+              </text>
+              <text
+                x="830"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#2da44e"
+              >
+                ✓ implemented
+              </text>
             </g>
 
             <!-- Arm 4 - green -->
             <g>
-              <rect x="940" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
-              <text x="1010" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 4</text>
-              <text x="1010" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
-              <text x="1010" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
+              <rect
+                x="940"
+                y="130"
+                width="140"
+                height="80"
+                rx="10"
+                fill="#fafbfc"
+                stroke="#2da44e"
+                stroke-width="2"
+              />
+              <text
+                x="1010"
+                y="155"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="13"
+                font-weight="600"
+                fill="#2da44e"
+              >
+                Brain + Arm 4
+              </text>
+              <text
+                x="1010"
+                y="175"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#7a8087"
+              >
+                arm · on-device brain
+              </text>
+              <text
+                x="1010"
+                y="195"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="10"
+                fill="#2da44e"
+              >
+                ✓ implemented
+              </text>
             </g>
 
             <!-- ============ PEER-TO-PEER LINES (red = planned) ============ -->
-            <line x1="180" y1="170" x2="220" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
-            <line x1="360" y1="170" x2="400" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
-            <line x1="540" y1="170" x2="580" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
-            <line x1="720" y1="170" x2="760" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
-            <line x1="900" y1="170" x2="940" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+            <line
+              x1="180"
+              y1="170"
+              x2="220"
+              y2="170"
+              stroke="#cf222e"
+              stroke-width="1.8"
+              stroke-dasharray="4 3"
+              marker-start="url(#arch-arrow-red)"
+              marker-end="url(#arch-arrow-red)"
+            />
+            <line
+              x1="360"
+              y1="170"
+              x2="400"
+              y2="170"
+              stroke="#cf222e"
+              stroke-width="1.8"
+              stroke-dasharray="4 3"
+              marker-start="url(#arch-arrow-red)"
+              marker-end="url(#arch-arrow-red)"
+            />
+            <line
+              x1="540"
+              y1="170"
+              x2="580"
+              y2="170"
+              stroke="#cf222e"
+              stroke-width="1.8"
+              stroke-dasharray="4 3"
+              marker-start="url(#arch-arrow-red)"
+              marker-end="url(#arch-arrow-red)"
+            />
+            <line
+              x1="720"
+              y1="170"
+              x2="760"
+              y2="170"
+              stroke="#cf222e"
+              stroke-width="1.8"
+              stroke-dasharray="4 3"
+              marker-start="url(#arch-arrow-red)"
+              marker-end="url(#arch-arrow-red)"
+            />
+            <line
+              x1="900"
+              y1="170"
+              x2="940"
+              y2="170"
+              stroke="#cf222e"
+              stroke-width="1.8"
+              stroke-dasharray="4 3"
+              marker-start="url(#arch-arrow-red)"
+              marker-end="url(#arch-arrow-red)"
+            />
 
             <!-- ============ BOTTOM: OBSERVER (temporary backend) ============ -->
             <g>
-              <rect x="330" y="280" width="440" height="70" rx="10" fill="#fafbfc" stroke="#8a6300" stroke-width="1.8" stroke-dasharray="6 3"/>
-              <text x="550" y="310" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="600" fill="#8a6300">observer (temporary backend)</text>
-              <text x="550" y="332" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7a8087">sets goal · observes · intervenes only on deadlock</text>
+              <rect
+                x="330"
+                y="280"
+                width="440"
+                height="70"
+                rx="10"
+                fill="#fafbfc"
+                stroke="#8a6300"
+                stroke-width="1.8"
+                stroke-dasharray="6 3"
+              />
+              <text
+                x="550"
+                y="310"
+                text-anchor="middle"
+                font-family="'Space Grotesk', sans-serif"
+                font-size="16"
+                font-weight="600"
+                fill="#8a6300"
+              >
+                observer (+ temporary backend)
+              </text>
+              <text
+                x="550"
+                y="332"
+                text-anchor="middle"
+                font-family="'JetBrains Mono', monospace"
+                font-size="11"
+                fill="#7a8087"
+              >
+                sets goal · observes · intervenes only on deadlock
+              </text>
             </g>
 
             <!-- Actors → Observer (amber, logging) -->
-            <line x1="110" y1="210" x2="380" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
-            <line x1="290" y1="210" x2="440" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
-            <line x1="470" y1="210" x2="500" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
-            <line x1="650" y1="210" x2="580" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
-            <line x1="830" y1="210" x2="660" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
-            <line x1="1010" y1="210" x2="720" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line
+              x1="110"
+              y1="210"
+              x2="380"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
+            <line
+              x1="290"
+              y1="210"
+              x2="440"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
+            <line
+              x1="470"
+              y1="210"
+              x2="500"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
+            <line
+              x1="650"
+              y1="210"
+              x2="580"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
+            <line
+              x1="830"
+              y1="210"
+              x2="660"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
+            <line
+              x1="1010"
+              y1="210"
+              x2="720"
+              y2="280"
+              stroke="#8a6300"
+              stroke-width="1.2"
+              stroke-dasharray="4 3"
+              marker-end="url(#arch-arrow-amber)"
+            />
           </svg>
 
           <!-- Legend -->
@@ -1023,16 +1532,16 @@
 
         <div class="arch-callout reveal">
           <strong>Transitional architecture.</strong>
-          All four arm actors already have brains (Qwen 0.5B) and run
+          All four arm actors already carry a small on-device brain and run
           independently. Shuttle and belt actors use scripted paths for now -
-          brains coming next. Peer-to-peer communication (red lines) replaces
-          the temporary backend in Sprint 4+. The observer will only log
-          state and intervene on deadlock.
+          brains coming next. The observer still routes through a temporary
+          backend; in Sprint 4+ peer-to-peer messaging (red lines) replaces it,
+          and the observer steps back to setting the goal and watching for
+          deadlock.
         </div>
       </div>
 
-      <div class="slide-number">
-        06<span class="of"> / 10</span></div>
+      <div class="slide-number">06<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1283,8 +1792,7 @@
         <span class="url reveal">http://localhost:8080/</span>
       </div>
 
-      <div class="slide-number">
-        07<span class="of"> / 10</span></div>
+      <div class="slide-number">07<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1359,13 +1867,13 @@
         <div class="arch-callout reveal" style="margin-top: var(--element-gap)">
           <strong>Note: negative tests are still future work.</strong>
           What we have today covers the happy paths and the failure modes we
-          already know about. The adversarial stuff (weird timing, partial
-          handovers, containers dying mid-cycle) is on the list, not done yet.
+          already know about. The adversarial cases - weird timing, partial
+          handovers, containers dying mid-cycle - are on the list, not done
+          yet.
         </div>
       </div>
 
-      <div class="slide-number">
-        08<span class="of"> / 10</span></div>
+      <div class="slide-number">08<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1388,57 +1896,70 @@
         </h2>
 
         <p class="reveal muted" style="max-width: 78ch">
-          Two tracks, running in parallel. One makes the system easier to
-          author. The other gives every actor its own brain.
+          Three tracks on our radar. The first is the headline - it's how the
+          right-side diagram becomes real.
         </p>
 
         <div
           class="roadmap reveal"
-          style="grid-template-columns: repeat(2, 1fr)"
+          style="grid-template-columns: repeat(3, 1fr)"
         >
+          <div class="milestone dream">
+            <div class="when">▸ AI · brain-to-brain</div>
+            <h3>Brain-to-brain bus</h3>
+            <ul>
+              <li>
+                The shared message bus from the architecture diagram becomes
+                real - actors negotiate handovers directly, no backend in the
+                loop.
+              </li>
+              <li>
+                Each actor advertises what it can reach and offer; chains
+                self-assemble through peer requests, no central authority
+                assigning roles.
+              </li>
+              <li>
+                Linear pipeline first, peer bidding next - then we drop the
+                temporary backend.
+              </li>
+            </ul>
+          </div>
+
           <div class="milestone next">
             <div class="when">▸ UI · click &amp; create</div>
             <h3>Node-RED-style builder</h3>
             <ul>
               <li>
-                Drag-and-drop actors, so nobody has to hand-edit YAML
-                or code.
+                Drag-and-drop actors, so nobody has to hand-edit YAML or code.
               </li>
-              <li>2-D routes instead of 1-D linear chains.</li>
+              <li>Parallel routes instead of one linear chain.</li>
               <li>
-                Set each actor's speed, capacity, and max load right in the
-                UI.
+                Set each actor's speed, capacity, and max load right in the UI.
               </li>
-              <li>A config panel for live edits.</li>
             </ul>
           </div>
 
-          <div class="milestone dream">
-            <div class="when">▸ AI · agent-driven</div>
-            <h3>An LLM brain per actor</h3>
+          <div class="milestone next">
+            <div class="when">▸ Honesty · where it breaks</div>
+            <h3>Limitations &amp; fallback</h3>
             <ul>
               <li>
-                Qwen 2.5 (0.5B) on Ollama is already wired in, hitting 88.9% on
-                routing - state machines deadlock when peers wait on each
-                other; LLM negotiation breaks the deadlock.
-              </li>
-              <li>Every actor gets its own brain that thinks locally.</li>
-              <li>
-                Each actor advertises what it can reach and offer - chains
-                self-assemble through peer requests, with no central authority
-                assigning roles.
+                Per-actor fallback: what each actor does when its brain can't
+                decide, when the bus drops messages, when a peer goes silent.
               </li>
               <li>
-                Negative tests: routing deadlocks, failed handovers, fallback
-                to deterministic script when the LLM stalls.
+                Negative tests: routing deadlocks, failed handovers, brain
+                stalls - actor degrades to its scripted path.
+              </li>
+              <li>
+                Defined in a behaviour file, same shape for every actor type.
               </li>
             </ul>
           </div>
         </div>
       </div>
 
-      <div class="slide-number">
-        09<span class="of"> / 10</span></div>
+      <div class="slide-number">09<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1460,8 +1981,19 @@
         <p class="reveal muted thanks-lede">
           Questions, ideas, opinions, all welcome.
         </p>
-        <p class="reveal team-names" style="font-family: var(--font-display); font-size: clamp(0.9rem, 1.4vw, 1.1rem); font-weight: 500; color: var(--text-primary);">
-          Team: Sneh <span style="color: var(--green)">·</span> Haris <span style="color: var(--green)">·</span> Montu <span style="color: var(--green)">·</span> Purvil <span style="color: var(--green)">·</span> Amir
+        <p
+          class="reveal team-names"
+          style="
+            font-family: var(--font-display);
+            font-size: clamp(0.9rem, 1.4vw, 1.1rem);
+            font-weight: 500;
+            color: var(--text-primary);
+          "
+        >
+          Team: Sneh <span style="color: var(--green)">·</span> Haris
+          <span style="color: var(--green)">·</span> Montu
+          <span style="color: var(--green)">·</span> Purvil
+          <span style="color: var(--green)">·</span> Amir
         </p>
         <p
           class="reveal dim"
@@ -1476,8 +2008,7 @@
         </p>
       </div>
 
-      <div class="slide-number">
-        10<span class="of"> / 10</span></div>
+      <div class="slide-number">10<span class="of"> / 10</span></div>
     </section>
 
     <div
@@ -1612,7 +2143,10 @@
           const close = () => box.classList.remove("open");
           trigger.addEventListener("click", open);
           trigger.addEventListener("keydown", (e) => {
-            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+            if (e.key === "Enter" || e.key === " ") {
+              e.preventDefault();
+              open();
+            }
           });
           box.addEventListener("click", close);
         }
