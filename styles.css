@@ -704,11 +704,13 @@ kbd {
     color: inherit;
     outline: none;
     cursor: default;
-    display: block;
+    display: flex;
+    flex-direction: column;
 }
 
 .stat-link .stat {
     transition: none;
+    flex: 1;
 }
 
 /* ===========================================
