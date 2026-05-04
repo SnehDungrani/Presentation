@@ -1404,7 +1404,7 @@ kbd {
 .arch-svg {
     width: 100%;
     height: auto;
-    aspect-ratio: 900 / 320;
+    aspect-ratio: 1100 / 380;
     max-height: clamp(220px, 38vh, 380px);
     display: block;
     align-self: center;

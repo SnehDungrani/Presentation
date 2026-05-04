@@ -97,7 +97,7 @@
         display: none;
       }
 
-      /* Slide 4 only: fit content without affecting any other slide */
+      /* Architecture slide fit */
       #arch-slide-fix .slide-content {
         justify-content: flex-start;
         gap: clamp(0.6rem, 1.5vh, 1.2rem);
@@ -112,6 +112,10 @@
       #arch-slide-fix .arch-svg {
         max-height: clamp(180px, 34vh, 340px);
       }
+      #arch-slide-fix .arch.diagram-frame {
+        cursor: pointer;
+        position: relative;
+      }
       #arch-slide-fix .arch-callout {
         margin-top: 0;
         padding: 0.8rem 1.2rem !important;
@@ -119,7 +123,7 @@
         line-height: 1.4 !important;
       }
 
-      /* Slide 3 (Ultimate Goal) fit fix */
+      /* Goal slide fit */
       #goal-slide-fix .slide-content {
         margin-top: clamp(1.5rem, 4vh, 2.5rem);
         justify-content: flex-start;
@@ -141,13 +145,19 @@
       #goal-slide-fix .diagram-frame img {
         max-height: clamp(280px, 52vh, 480px);
       }
+      #goal-slide-fix .arch-callout {
+        margin-top: 0.3rem;
+        padding: 0.6rem 1rem !important;
+        font-size: clamp(0.72rem, 1vw, 0.88rem) !important;
+        line-height: 1.45 !important;
+      }
 
-      /* Lightbox refinement for Slide 3 */
+      /* Lightbox refinement */
       .lightbox {
         align-items: center !important;
         justify-content: center !important;
         padding: 2rem !important;
-        overflow-y: auto !important; /* Allow scroll if extremely tall */
+        overflow-y: auto !important;
       }
       .lightbox object,
       .lightbox img {
@@ -158,7 +168,7 @@
         object-fit: contain !important;
         transform: none !important;
         margin: 0 auto !important;
-        background: white; /* Ensure diagram bg is clean */
+        background: white;
         border-radius: 4px;
       }
       .lightbox .close-hint {
@@ -172,19 +182,25 @@
         display: block !important;
         pointer-events: auto !important;
       }
+      .arch-lightbox-inner {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+      }
+      .arch-lightbox-inner svg {
+        background: white;
+        border-radius: 4px;
+      }
 
       /* ===========================================
          INTRODUCTION SLIDE (Imagine - moon base)
-         Two-column grid: story left, porthole-framed image right.
-         The image sits inside a circular "porthole" with glass rim,
-         soft inner vignette, green halo, and an orbiting satellite dot.
          =========================================== */
-      /* Stack from top so eyebrow + title aren't clipped when grid
-         pushes total height past the viewport. */
       .intro-slide .slide-content {
         justify-content: flex-start;
         gap: clamp(0.5rem, 1.2vw, 1rem);
-        overflow: visible; /* Prevent clipping of orbiting animations */
+        overflow: visible;
       }
 
       .intro-grid {
@@ -264,11 +280,9 @@
         position: relative;
         display: flex;
         align-items: center;
-        justify-content: center; /* center inside the right column */
-        margin-top: -1rem; /* lift moon+orbit slightly */
-        justify-self: center; /* center the whole moon block inside the right grid cell */
-        /* Padding leaves enough headroom for the dots, while overflow:visible 
-           handles anything that might still reach the edge. */
+        justify-content: center;
+        margin-top: -1rem;
+        justify-self: center;
         padding: clamp(1.5rem, 4vw, 3rem);
         aspect-ratio: 1;
         max-height: 100%;
@@ -276,9 +290,6 @@
         overflow: visible;
       }
 
-      /* Inner circular frame holding the image. Layered shadows give
-         it a glass rim, an inner vignette, a thin green keyline, and
-         a soft halo blooming into the slide background. */
       .intro-moon-frame {
         position: relative;
         width: 100%;
@@ -286,7 +297,6 @@
         max-width: clamp(240px, 32vw, 420px);
         max-height: clamp(240px, 32vw, 420px);
         aspect-ratio: 1;
-        /* Keep the porthole centered inside its container. */
         margin-left: auto;
         margin-right: auto;
         border-radius: 50%;
@@ -306,7 +316,6 @@
         border-radius: 50%;
         filter: contrast(1.04) saturate(0.95);
       }
-      /* Soft top-left specular highlight - "glass" lens effect */
       .intro-moon-glass {
         position: absolute;
         inset: 0;
@@ -321,19 +330,9 @@
         z-index: 3;
       }
 
-      /* Orbital ring around the porthole. Two rings (inner solid-glow,
-         outer dashed) give it tech/satellite feel. Each carries a
-         glowing dot pinned to 12 o'clock; rotating the ring orbits
-         the dot for free. */
-      /* Inner orbit sits just outside the porthole frame, inside
-         the .intro-moon padding so it cannot escape the slide. */
-      /* Orbits are children of .intro-moon-frame so they inherit
-         the actual rendered size. Negative inset places them just
-         outside the frame edge - auto-scales perfectly regardless
-         of how the frame ends up sized. */
       .intro-moon-orbit {
         position: absolute;
-        inset: -24px; /* double margin on the near ring */
+        inset: -24px;
         border-radius: 50%;
         border: 1px dashed rgba(45, 164, 78, 0.55);
         animation: orbit-spin 28s linear infinite;
@@ -347,15 +346,15 @@
         height: 11px;
         background: var(--green);
         border-radius: 50%;
-        top: 0; /* pin dot to ring top edge */
+        top: 0;
         left: 50%;
-        transform: translateX(-50%) translateY(-50%); /* center dot on the ring edge */
+        transform: translateX(-50%) translateY(-50%);
         box-shadow:
           0 0 14px var(--green),
           0 0 26px rgba(45, 164, 78, 0.55);
       }
       .intro-moon-orbit.outer {
-        inset: -42px; /* more gap between near and outer orbit */
+        inset: -42px;
         border-style: dotted;
         border-color: rgba(45, 164, 78, 0.33);
         animation-duration: 64s;
@@ -364,14 +363,12 @@
       .intro-moon-orbit.outer::before {
         width: 7px;
         height: 7px;
-        top: 0; /* pin outer dot to its ring top edge */
+        top: 0;
         left: 50%;
         transform: translateX(-50%) translateY(-50%);
         background: rgba(45, 164, 78, 0.85);
         box-shadow: 0 0 10px rgba(45, 164, 78, 0.7);
       }
-      /* Keep the rotation around dot center, not the ring center,
-         by re-applying the centering in the keyframe. */
       @keyframes orbit-spin {
         to {
           transform: rotate(360deg);
@@ -383,19 +380,14 @@
         }
       }
 
-      /* Demo-slide factory row: 8 nodes share the row.
-         Lock label + role text to a single line so all node boxes
-         have identical height (Arm 1 / Shuttle A no longer wrap and
-         grow taller than the rest). Internal block sizing untouched. */
+      /* Demo-slide factory row */
       .demo-factory .node .label,
       .demo-factory .node .role {
         white-space: nowrap;
       }
-    
+
       /* ==========================================================
          SLIDE 2 - INTRODUCTION
-         Two stacked cards (problem + walkthrough) plus a one-line
-         lede.
          ========================================================== */
       .intro-page .slide-content {
         justify-content: center;
@@ -482,7 +474,7 @@
     <nav class="nav-dots" id="navDots" aria-label="Slide navigation"></nav>
 
     <!-- =============================================
-     SLIDE 1 - TITLE COVER (unchanged)
+     SLIDE 1 - TITLE COVER
      ============================================= -->
     <section class="slide title-cover">
       <header class="chrome">
@@ -518,7 +510,6 @@
 
           <div class="partners-strip">
             <div class="partners-left">
-              <!-- "Ein gemeinsames Studienprogramm der" is already baked into the logo PNG -->
               <img
                 src="assets/Ostfalia & clausthal logo.png"
                 alt="Ein gemeinsames Studienprogramm der · Ostfalia · TU Clausthal"
@@ -562,7 +553,10 @@
     </section>
 
     <!-- =============================================
-     SLIDE 2 - INTRODUCTION (NEW)
+     SLIDE 2 - INTRODUCTION
+     Rephrased per Alex: digital twin, not factory simulator.
+     Problem reframed: scaling fails with many actors due to
+     latency + unreliable links + computational power.
      ============================================= -->
     <section class="slide intro-page">
       <header class="chrome">
@@ -578,9 +572,10 @@
         </h2>
 
         <p class="reveal lede">
-          Inter.act is a <strong>browser-based factory simulator</strong> where every
-          robot - <strong>arm, vehicle, conveyor</strong> - has its own small AI
-          brain and figures out the work with its neighbours, instead of
+          Inter.act is the <strong>digital twin</strong> of an autonomous robot
+          warehouse where every actor - <strong>arm, vehicle, conveyor</strong> -
+          carries its own small AI brain and self-organizes with its neighbours
+          to complete tasks that no single actor could do alone, instead of
           waiting for a central controller to tell it what to do.
         </p>
 
@@ -588,9 +583,10 @@
           <div class="intro-card problem">
             <span class="label">The problem we're working on</span>
             <p>
-              A single central controller stops scaling the moment you add
-              <strong>distance, latency, or unreliable links</strong>. We're building
-              the alternative.
+              A single central controller <strong>stops scaling</strong> the
+              moment you add a large amount of actors - because of
+              <strong>latency, unreliable links, and the computational
+              power</strong> you would need on a single system.
             </p>
           </div>
 
@@ -611,8 +607,10 @@
     </section>
 
     <!-- =============================================
-     SLIDE 2 - INTRODUCTION (Imagine / moon base opener)
-     Sets up the scaling problem; next slide answers it.
+     SLIDE 3 - IMAGINE (moon base opener)
+     Per Alex: removed "These actors are autonomous" sentence -
+     it contradicts the flow (next sentence says current approach
+     is central). That sentence moves to slide 4 as conclusion.
      ============================================= -->
     <section class="slide intro-slide">
       <header class="chrome">
@@ -635,39 +633,32 @@
               vehicles, and conveyor belts</strong>. Each one does its own job:
               arms pick and place, shuttles move parts between zones, belts
               carry parts across longer distances.
-            </p>
-
-            <p>
-              <span class="green-accent">These actors are autonomous</span> -
-              no human issues commands, and each one decides for itself what
-              to do next. <strong>Different jobs, different expertise, all
+              <strong>Different jobs, different expertise, all
               working in the same place at the same time.</strong>
             </p>
 
             <p>
-              With the current approach, you would need
-              <strong>one central unit</strong> to handle and combine every
-              behaviour. That works fine on a small or mid-size scenario. The
-              moment you add more units, it falls over. A single controller
-              compounds every one of the constraints below.
+              With the current approach, you need
+              <strong>one central controller</strong> that compounds everyone
+              at a constant. That works fine on a small or mid-size scenario.
+              <span class="green-accent">A single controller stops scaling</span>
+              the moment you add a large amount of actors - because of
+              latency, unreliable links, and the computational power you would
+              need on a single system.
             </p>
 
             <ul class="intro-traits">
               <li>Different actors,<br />different tasks</li>
               <li>Demanding environment,<br />outside influences</li>
-              <li>Round-trip latency:<br />~2-3 seconds</li>
-              <li>Spare parts arrive<br />in days, not months</li>
+              <li>Latency &amp; unreliable<br />links at distance</li>
+              <li>Computation scales<br />exponentially</li>
             </ul>
 
             <p class="intro-pivot reveal">
-              So what if the brain isn't one central unit at all?
+              So what if it's not one central unit at all?
             </p>
           </div>
 
-          <!-- Porthole-style framed image: circular clip + glass rim
-               + green halo glow + dashed orbital ring carrying a
-               glowing satellite dot. Orbits are children of the frame
-               so they always hug it at the right scale. -->
           <div class="intro-moon reveal" aria-hidden="true">
             <div class="intro-moon-frame">
               <img
@@ -687,8 +678,9 @@
     </section>
 
     <!-- =============================================
-     SLIDE 3 - ULTIMATE GOAL
-     Image 1 (multi-asset factory floor) + Image 2 (Before vs INTER.act)
+     SLIDE 4 - ULTIMATE GOAL
+     Per Alex: conclusion sentence added below diagram.
+     Observer description refined. All "asset" → "actor".
      ============================================= -->
     <section class="slide" id="goal-slide-fix">
       <header class="chrome">
@@ -707,17 +699,9 @@
 
         <p class="reveal muted" style="max-width: 80ch">
           Today every decision flows through one deterministic central
-          controller - no intelligence, no autonomy. In INTER.act, every arm
-          and every asset reasons on its own and works out handovers with its
+          controller - no intelligence, no autonomy. In INTER.act, every
+          actor reasons on its own and works out handovers with its
           neighbours directly.
-        </p>
-
-        <p class="reveal muted" style="max-width: 80ch">
-          The <strong>Observer</strong> is an
-          <span class="green-accent">emergent orchestrator and observer</span>.
-          It delegates the overall goal and watches what happens. It does not
-          control execution and does not manage individual capabilities - the
-          peers handle that between themselves.
         </p>
 
         <!-- Today vs INTER.act diagram - click to enlarge -->
@@ -741,7 +725,14 @@
           </object>
         </div>
 
-
+        <div class="arch-callout reveal">
+          <strong>Conclusion:</strong> These actors are autonomous - no human
+          issues commands, each one decides for itself what to do next.
+          Peer-to-peer messaging between brains swaps information directly
+          through a shared message bus. Actors negotiate handovers; the
+          observer <strong>sets the goal</strong>, watches state, and never
+          micro-manages.
+        </div>
       </div>
 
       <div class="slide-number">
@@ -749,7 +740,9 @@
     </section>
 
     <!-- =============================================
-     SLIDE 4 - PROJECT PHASES (epics, traffic-light)
+     SLIDE 5 - PROJECT PHASES
+     Per Alex: "asset communication" → "actor coordination".
+     "per station" → "per actor". "every arm" → "every actor".
      ============================================= -->
     <section class="slide">
       <header class="chrome">
@@ -774,7 +767,7 @@
           "
         >
           Sprint 1-2 · foundation laid &nbsp;·&nbsp; Sprint 3 · AI integration
-          &nbsp;·&nbsp; Sprint 4+ · asset communication
+          &nbsp;·&nbsp; Sprint 4+ · actor coordination
         </p>
 
         <div class="phases reveal">
@@ -787,7 +780,7 @@
             <p>
               A virtual factory floor with arms, shuttles, and conveyors. Live
               state, a fail/recover lifecycle, and one
-              <em>Docker container</em> per station (one isolated service for
+              <em>Docker container</em> per actor (one isolated service for
               every actor). The base is solid; a Node-RED style builder is
               what's next.
             </p>
@@ -801,12 +794,9 @@
             </div>
             <h3>AI integration</h3>
             <p>
-              A local LLM (Qwen 2.5 on Ollama) is wired into the stack. The
-              <strong>Observer</strong> handles routing for now
-              <em
-                >(transitional scaffolding - per-arm autonomy takes over in
-                Phase 03)</em
-              >. After that, every arm gets its own brain.
+              A local LLM (Qwen 2.5 on Ollama) is wired into the stack. Every
+              actor gets its own brain. The brain decides <em>when</em> and
+              <em>which</em> script to run; the script handles <em>how</em>.
             </p>
             <span class="phase-tag">Sprint 3 · active</span>
           </div>
@@ -818,9 +808,8 @@
             </div>
             <h3>Actor coordination</h3>
             <p>
-              Arms and assets <em>(mobile actors: shuttle vehicles and
-              conveyor belts)</em> work out handovers between themselves. The
-              Observer only steps in when peers get stuck.
+              Actors work out handovers between themselves on a shared message
+              bus. The observer only steps in when peers get stuck.
             </p>
             <span class="phase-tag">Sprint 4+ · next up</span>
           </div>
@@ -838,7 +827,10 @@
     </section>
 
     <!-- =============================================
-     SLIDE 5 - ARCHITECTURE DIAGRAM
+     SLIDE 6 - ARCHITECTURE DIAGRAM
+     Per Alex: redesigned to show transitional state.
+     Frontend → brain+actor pairs → observer (temporary backend).
+     Colors: green=done, amber=in progress, red=planned.
      ============================================= -->
     <section class="slide" id="arch-slide-fix">
       <header class="chrome">
@@ -851,351 +843,119 @@
       <div class="slide-content">
         <p class="eyebrow reveal">
           Architecture <span style="color: var(--text-dim)">·</span>
-          <span style="color: var(--amber)"
-            >Phase 1 baseline (centralized)</span
-          >
+          <span style="color: var(--amber)">current state</span>
         </p>
         <h2 class="section-title reveal">How the pieces fit together</h2>
-        <p
-          class="reveal dim"
-          style="
-            font-family: var(--font-mono);
-            font-size: var(--small-size);
-            margin-top: calc(-1 * var(--element-gap));
-          "
-        >
-          Foundation for INTER.act - stepping stone, not the destination. The
-          target architecture in Phase 03 has direct peer-to-peer paths.
-        </p>
 
-        <!-- Reanalysed against claude.md, AI_Integration_Summary.md, run_demo.py:
-             ─ Solid arrows = primary channel: every container registers state /
-               health with backend; backend talks to ollama via QwenBrain.
-             ─ Dashed arrows = orchestration: demo-runner reaches arm and asset
-               services directly during a demo (HTTP bridges in run_demo.py). -->
-        <div class="arch reveal">
+        <div class="arch reveal diagram-frame" id="archFrame" role="button" tabindex="0" aria-label="Click to enlarge architecture diagram">
+          <span class="zoom-hint">click to zoom ⤢</span>
           <svg
             class="arch-svg"
-            viewBox="0 0 900 320"
+            viewBox="0 0 1100 380"
             xmlns="http://www.w3.org/2000/svg"
             role="img"
-            aria-label="Architecture diagram: frontend, backend, demo-runner across the top; ollama, arm services, asset services along the bottom; backend connects to all bottom services as source of truth, demo-runner additionally orchestrates arms and assets"
+            aria-label="Architecture diagram showing frontend, actor-brain pairs, and observer. Green=implemented, amber=in progress, red=planned."
           >
             <defs>
-              <marker
-                id="arch-arrow"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="6"
-                markerHeight="6"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2da44e" />
+              <marker id="arch-arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#2da44e"/>
               </marker>
-              <marker
-                id="arch-arrow-grey"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="6"
-                markerHeight="6"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#9aa4ad" />
+              <marker id="arch-arrow-amber" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8a6300"/>
               </marker>
-              <marker
-                id="arch-arrow-dim"
-                viewBox="0 0 10 10"
-                refX="9"
-                refY="5"
-                markerWidth="6"
-                markerHeight="6"
-                orient="auto-start-reverse"
-              >
-                <path d="M 0 0 L 10 5 L 0 10 z" fill="#8250df" />
+              <marker id="arch-arrow-red" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+                <path d="M 0 0 L 10 5 L 0 10 z" fill="#cf222e"/>
               </marker>
             </defs>
 
-            <!-- ============ TOP ROW CONNECTORS ============ -->
-            <line
-              x1="240"
-              y1="50"
-              x2="340"
-              y2="50"
-              stroke="#9aa4ad"
-              stroke-width="1.5"
-              marker-start="url(#arch-arrow-grey)"
-              marker-end="url(#arch-arrow-grey)"
-            />
-            <line
-              x1="560"
-              y1="50"
-              x2="660"
-              y2="50"
-              stroke="#9aa4ad"
-              stroke-width="1.5"
-              marker-start="url(#arch-arrow-grey)"
-              marker-end="url(#arch-arrow-grey)"
-            />
-
-            <!-- ============ BACKEND → bottom row (PRIMARY, solid) ============
-                     Cubic Bezier so each arrow exits the box bottom and lands
-                     near-vertically on the target's top edge - no more lines that
-                     look like they wander out the side of the backend box. -->
-            <!-- backend → ollama -->
-            <path
-              d="M 410 90 C 350 130 200 170 175 226"
-              stroke="#2da44e"
-              stroke-width="1.6"
-              fill="none"
-              marker-end="url(#arch-arrow)"
-            />
-            <!-- backend → arm-1..N -->
-            <line
-              x1="450"
-              y1="90"
-              x2="450"
-              y2="226"
-              stroke="#2da44e"
-              stroke-width="1.6"
-              marker-end="url(#arch-arrow)"
-            />
-            <!-- backend → veh / conv -->
-            <path
-              d="M 490 90 C 550 130 700 170 725 226"
-              stroke="#2da44e"
-              stroke-width="1.6"
-              fill="none"
-              marker-end="url(#arch-arrow)"
-            />
-
-            <!-- ============ DEMO-RUNNER → arm + asset (ORCHESTRATION, dashed) ============ -->
-            <path
-              d="M 730 90 C 670 130 540 170 510 226"
-              stroke="#8250df"
-              stroke-width="1.4"
-              fill="none"
-              stroke-dasharray="5 4"
-              marker-end="url(#arch-arrow-dim)"
-            />
-            <line
-              x1="800"
-              y1="90"
-              x2="800"
-              y2="226"
-              stroke="#8250df"
-              stroke-width="1.4"
-              stroke-dasharray="5 4"
-              marker-end="url(#arch-arrow-dim)"
-            />
-
-            <!-- ============ TOP ROW BOXES ============ -->
+            <!-- ============ TOP: FRONTEND ============ -->
             <g>
-              <rect
-                x="20"
-                y="10"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#fafbfc"
-                stroke="#0969da"
-                stroke-width="1.5"
-              />
-              <text
-                x="130"
-                y="48"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="600"
-                fill="#0969da"
-              >
-                frontend
-              </text>
-              <text
-                x="130"
-                y="72"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="12"
-                fill="#7a8087"
-              >
-                Canvas + live UI
-              </text>
-            </g>
-            <g>
-              <rect
-                x="340"
-                y="10"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#f0fff5"
-                stroke="#2da44e"
-                stroke-width="2"
-              />
-              <text
-                x="450"
-                y="48"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="700"
-                fill="#2da44e"
-              >
-                backend
-              </text>
-              <text
-                x="450"
-                y="66"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="11"
-                fill="#7a8087"
-              >
-                <tspan x="450" dy="0">API · health · sockets</tspan>
-                <tspan x="450" dy="13">QwenBrain</tspan>
-              </text>
-            </g>
-            <g>
-              <rect
-                x="660"
-                y="10"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#fafbfc"
-                stroke="#8250df"
-                stroke-width="1.5"
-              />
-              <text
-                x="770"
-                y="48"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="600"
-                fill="#8250df"
-              >
-                demo-runner
-              </text>
-              <text
-                x="770"
-                y="72"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="12"
-                fill="#7a8087"
-              >
-                orchestration
-              </text>
+              <rect x="440" y="10" width="220" height="60" rx="10" fill="#f0fff5" stroke="#2da44e" stroke-width="2"/>
+              <text x="550" y="38" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="18" font-weight="700" fill="#2da44e">frontend</text>
+              <text x="550" y="56" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7a8087">Canvas + live UI</text>
             </g>
 
-            <!-- ============ BOTTOM ROW BOXES ============ -->
+            <!-- Frontend → actors -->
+            <line x1="470" y1="70" x2="110" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line x1="500" y1="70" x2="290" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line x1="530" y1="70" x2="470" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line x1="570" y1="70" x2="650" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line x1="600" y1="70" x2="830" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+            <line x1="630" y1="70" x2="1010" y2="130" stroke="#2da44e" stroke-width="1.5" marker-end="url(#arch-arrow)"/>
+
+            <!-- ============ MIDDLE: BRAIN + ACTOR PAIRS ============ -->
+            <!-- Arm 1 - green -->
             <g>
-              <rect
-                x="65"
-                y="230"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#fdf2f7"
-                stroke="#bf3989"
-                stroke-width="1.5"
-              />
-              <text
-                x="175"
-                y="268"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="600"
-                fill="#bf3989"
-              >
-                ollama
-              </text>
-              <text
-                x="175"
-                y="292"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="12"
-                fill="#7a8087"
-              >
-                local LLM (Qwen 2.5)
-              </text>
+              <rect x="40" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
+              <text x="110" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 1</text>
+              <text x="110" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
+              <text x="110" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
             </g>
+
+            <!-- Arm 2 - green -->
             <g>
-              <rect
-                x="340"
-                y="230"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#fafbfc"
-                stroke="#2da44e"
-                stroke-width="1.5"
-              />
-              <text
-                x="450"
-                y="268"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="600"
-                fill="#2da44e"
-              >
-                arm-1..N
-              </text>
-              <text
-                x="450"
-                y="292"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="12"
-                fill="#7a8087"
-              >
-                per-arm services
-              </text>
+              <rect x="220" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
+              <text x="290" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 2</text>
+              <text x="290" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
+              <text x="290" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
             </g>
+
+            <!-- Arm 3 - green -->
             <g>
-              <rect
-                x="615"
-                y="230"
-                width="220"
-                height="80"
-                rx="10"
-                fill="#fdf6e3"
-                stroke="#8a6300"
-                stroke-width="1.5"
-              />
-              <text
-                x="725"
-                y="268"
-                text-anchor="middle"
-                font-family="'Space Grotesk', sans-serif"
-                font-size="20"
-                font-weight="600"
-                fill="#8a6300"
-              >
-                veh-* / conv-*
-              </text>
-              <text
-                x="725"
-                y="292"
-                text-anchor="middle"
-                font-family="'JetBrains Mono', monospace"
-                font-size="12"
-                fill="#7a8087"
-              >
-                per-asset services
-              </text>
+              <rect x="400" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
+              <text x="470" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 3</text>
+              <text x="470" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
+              <text x="470" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
             </g>
+
+            <!-- Arm 4 - green -->
+            <g>
+              <rect x="580" y="130" width="140" height="80" rx="10" fill="#fafbfc" stroke="#2da44e" stroke-width="2"/>
+              <text x="650" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#2da44e">Brain + Arm 4</text>
+              <text x="650" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">arm · Qwen 0.5B</text>
+              <text x="650" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#2da44e">✓ implemented</text>
+            </g>
+
+            <!-- Shuttle - amber -->
+            <g>
+              <rect x="760" y="130" width="140" height="80" rx="10" fill="#fdf6e3" stroke="#8a6300" stroke-width="2"/>
+              <text x="830" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#8a6300">Brain + Shuttle</text>
+              <text x="830" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">vehicle · scripted</text>
+              <text x="830" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8a6300">◐ in progress</text>
+            </g>
+
+            <!-- Belt - amber -->
+            <g>
+              <rect x="940" y="130" width="140" height="80" rx="10" fill="#fdf6e3" stroke="#8a6300" stroke-width="2"/>
+              <text x="1010" y="155" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="13" font-weight="600" fill="#8a6300">Brain + Belt</text>
+              <text x="1010" y="175" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#7a8087">conveyor · scripted</text>
+              <text x="1010" y="195" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="10" fill="#8a6300">◐ in progress</text>
+            </g>
+
+            <!-- ============ PEER-TO-PEER LINES (red = planned) ============ -->
+            <line x1="180" y1="170" x2="220" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+            <line x1="360" y1="170" x2="400" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+            <line x1="540" y1="170" x2="580" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+            <line x1="720" y1="170" x2="760" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+            <line x1="900" y1="170" x2="940" y2="170" stroke="#cf222e" stroke-width="1.8" stroke-dasharray="4 3" marker-start="url(#arch-arrow-red)" marker-end="url(#arch-arrow-red)"/>
+
+            <!-- ============ BOTTOM: OBSERVER (temporary backend) ============ -->
+            <g>
+              <rect x="330" y="280" width="440" height="70" rx="10" fill="#fafbfc" stroke="#8a6300" stroke-width="1.8" stroke-dasharray="6 3"/>
+              <text x="550" y="310" text-anchor="middle" font-family="'Space Grotesk', sans-serif" font-size="16" font-weight="600" fill="#8a6300">observer (temporary backend)</text>
+              <text x="550" y="332" text-anchor="middle" font-family="'JetBrains Mono', monospace" font-size="11" fill="#7a8087">sets goal · logs state · will replace backend</text>
+            </g>
+
+            <!-- Actors → Observer (amber, logging) -->
+            <line x1="110" y1="210" x2="380" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line x1="290" y1="210" x2="440" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line x1="470" y1="210" x2="500" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line x1="650" y1="210" x2="580" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line x1="830" y1="210" x2="660" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
+            <line x1="1010" y1="210" x2="720" y2="280" stroke="#8a6300" stroke-width="1.2" stroke-dasharray="4 3" marker-end="url(#arch-arrow-amber)"/>
           </svg>
 
-          <!-- Legend rendered as HTML below the diagram so it doesn't sit
-                 awkwardly under the ollama box inside the SVG viewBox. -->
+          <!-- Legend -->
           <div class="arch-legend">
             <span class="arch-legend-item">
               <svg width="36" height="6" viewBox="0 0 36 6" aria-hidden="true">
@@ -1208,7 +968,7 @@
                   stroke-width="2"
                 />
               </svg>
-              state · health · LLM
+              implemented
             </span>
             <span class="arch-legend-item">
               <svg width="36" height="6" viewBox="0 0 36 6" aria-hidden="true">
@@ -1217,23 +977,37 @@
                   y1="3"
                   x2="36"
                   y2="3"
-                  stroke="#8250df"
+                  stroke="#8a6300"
                   stroke-width="2"
-                  stroke-dasharray="5 4"
+                  stroke-dasharray="4 3"
                 />
               </svg>
-              orchestration (demo-runner)
+              in progress
+            </span>
+            <span class="arch-legend-item">
+              <svg width="36" height="6" viewBox="0 0 36 6" aria-hidden="true">
+                <line
+                  x1="0"
+                  y1="3"
+                  x2="36"
+                  y2="3"
+                  stroke="#cf222e"
+                  stroke-width="2"
+                  stroke-dasharray="4 3"
+                />
+              </svg>
+              planned (Sprint 4+)
             </span>
           </div>
         </div>
 
         <div class="arch-callout reveal">
-          <strong>How the pieces fit together</strong>
-          Every container reports its state and health to it, and it's also the
-          gatekeeper for the LLM through the <em>QwenBrain</em> service.
-          <strong>Demo-runner</strong> lives in its own container next door, so
-          heavy orchestration work doesn't tie up the API thread pool. It only
-          talks to arms and assets directly while a demo is running.
+          <strong>Transitional architecture.</strong>
+          All four arm actors already have brains (Qwen 0.5B) and run
+          independently. Shuttle and belt actors use scripted paths for now -
+          brains coming next. Peer-to-peer communication (red lines) replaces
+          the temporary backend in Sprint 4+. The observer will only log
+          state and intervene on deadlock.
         </div>
       </div>
 
@@ -1242,7 +1016,9 @@
     </section>
 
     <!-- =============================================
-     SLIDE 6 - LIVE DEMO
+     SLIDE 7 - LIVE DEMO
+     Per Alex: shuttle/belt roles → "actor".
+     Card tags → "arm · actor", "vehicle · actor", "conveyor · actor".
      ============================================= -->
     <section class="slide">
       <header class="chrome">
@@ -1260,7 +1036,7 @@
           all live.
         </p>
 
-        <!-- Factory flow row - visualises what the demo will show -->
+        <!-- Factory flow row -->
         <div
           class="factory reveal demo-factory"
           style="
@@ -1270,9 +1046,6 @@
           "
         >
           <div class="factory-row">
-            <!-- Intake zone (mirrors Output node on the right edge).
-                 Uses `node output` class so border, padding, font sizes
-                 match the Output node exactly - no custom sizing. -->
             <div class="node output">
               <div class="glyph">
                 <svg
@@ -1356,7 +1129,7 @@
                 </svg>
               </div>
               <span class="label">Shuttle A</span
-              ><span class="role">vehicle</span>
+              ><span class="role">actor</span>
             </div>
             <span class="flow-arrow">→</span>
             <div class="node conv">
@@ -1392,7 +1165,7 @@
                   />
                 </svg>
               </div>
-              <span class="label">Belt 1</span><span class="role">4 slots</span>
+              <span class="label">Belt 1</span><span class="role">actor</span>
             </div>
             <span class="flow-arrow">→</span>
             <div class="node arm live">
@@ -1453,26 +1226,25 @@
           </div>
         </div>
 
-        <!-- Three role descriptors (arm · vehicle · conveyor) - gives the
-             audience a quick legend before they look at the live UI. -->
+        <!-- Three role descriptors -->
         <div
           class="grid-3 reveal"
           style="width: 100%; max-width: 1000px; text-align: left"
         >
           <div class="card">
-            <span class="tag">arm</span>
+            <span class="tag">arm · actor</span>
             <p style="margin-top: 0.5em">
               2D robotic arm. Picks at 180°, places at 0°, rests at 90°.
             </p>
           </div>
           <div class="card violet">
-            <span class="tag violet">vehicle</span>
+            <span class="tag violet">vehicle · actor</span>
             <p style="margin-top: 0.5em">
               Shuttle that carries one part along waypoints between zones.
             </p>
           </div>
           <div class="card amber">
-            <span class="tag amber">conveyor</span>
+            <span class="tag amber">conveyor · actor</span>
             <p style="margin-top: 0.5em">
               Multi-slot belt with proper backpressure. Ticks every 50 ms.
             </p>
@@ -1496,7 +1268,9 @@
     </section>
 
     <!-- =============================================
-     SLIDE 7 - WHAT'S BEEN BUILT (Sprint 1-2)
+     SLIDE 8 - WHAT'S BEEN BUILT
+     Per Alex: "arms" → "actors" throughout.
+     "assets" → "actors". Consistent terminology.
      ============================================= -->
     <section class="slide">
       <header class="chrome">
@@ -1510,9 +1284,6 @@
         <p class="eyebrow reveal">What's been built</p>
         <h2 class="section-title reveal">Sprint 1-2 · the baseline</h2>
 
-        <!-- Dynamic system: arm and asset counts come from pipeline.yaml,
-             so we don't pin them to numbers. Test count and lifecycle states
-             ARE fixed (test suite, Module contract). -->
         <div class="stats-row reveal">
           <div class="stat">
             <div class="num">81</div>
@@ -1524,7 +1295,7 @@
           </div>
           <div class="stat cyan">
             <div class="num">N</div>
-            <div class="label">assets · vehicles + conveyors</div>
+            <div class="label">actors · vehicles + conveyors</div>
           </div>
           <a
             class="stat-link"
@@ -1541,10 +1312,10 @@
         <div class="grid-3 reveal">
           <div class="card">
             <div class="icon">🦾</div>
-            <h3>Arms &amp; demo running</h3>
+            <h3>Actors &amp; demo running</h3>
             <p>
-              The multi-arm pipeline picks, carries, hands off, and places. The
-              demo runs from start to finish at every speed setting.
+              The multi-actor pipeline picks, carries, hands off, and places.
+              The demo runs from start to finish at every speed setting.
             </p>
           </div>
           <div class="card amber">
@@ -1552,15 +1323,15 @@
             <h3>Live logs &amp; UI state</h3>
             <p>
               Every event streams to the browser over SocketIO. The sidebar
-              shows what each arm is doing as it happens.
+              shows what each actor is doing as it happens.
             </p>
           </div>
           <div class="card cyan">
             <div class="icon">⚙</div>
             <h3>State machine defined</h3>
             <p>
-              One contract covers every station: idle, busy, draining, failed,
-              recovering. Arms and assets share the same machine.
+              One contract covers every actor: idle, busy, draining, failed,
+              recovering. All actors share the same machine.
             </p>
           </div>
         </div>
@@ -1578,7 +1349,9 @@
     </section>
 
     <!-- =============================================
-     SLIDE 8 - FUTURE WORK
+     SLIDE 9 - FUTURE WORK
+     Per Alex: "each arm" → "every actor".
+     Consistent actor terminology throughout.
      ============================================= -->
     <section class="slide">
       <header class="chrome">
@@ -1596,7 +1369,7 @@
 
         <p class="reveal muted" style="max-width: 78ch">
           Two tracks, running in parallel. One makes the system easier to
-          author. The other gives every station its own brain.
+          author. The other gives every actor its own brain.
         </p>
 
         <div
@@ -1608,12 +1381,12 @@
             <h3>Node-RED-style builder</h3>
             <ul>
               <li>
-                Drag-and-drop arms and assets, so nobody has to hand-edit YAML
+                Drag-and-drop actors, so nobody has to hand-edit YAML
                 or code.
               </li>
               <li>2-D routes instead of 1-D linear chains.</li>
               <li>
-                Set each station's speed, capacity, and max load right in the
+                Set each actor's speed, capacity, and max load right in the
                 UI.
               </li>
               <li>A config panel for live edits.</li>
@@ -1622,14 +1395,14 @@
 
           <div class="milestone dream">
             <div class="when">▸ AI · agent-driven</div>
-            <h3>An LLM brain per station</h3>
+            <h3>An LLM brain per actor</h3>
             <ul>
               <li>
                 Qwen 2.5 (0.5B) on Ollama is already wired in, hitting 88.9% on
                 routing - state machines deadlock when peers wait on each
                 other; LLM negotiation breaks the deadlock.
               </li>
-              <li>Each arm gets its own brain that thinks locally.</li>
+              <li>Every actor gets its own brain that thinks locally.</li>
               <li>
                 Each actor advertises what it can reach and offer - chains
                 self-assemble through peer requests, with no central authority
@@ -1649,7 +1422,7 @@
     </section>
 
     <!-- =============================================
-     SLIDE 9 - THANK YOU
+     SLIDE 10 - THANK YOU
      ============================================= -->
     <section class="slide thanks-slide">
       <header class="chrome">
@@ -1700,6 +1473,17 @@
         data="assets/today-vs-interact.svg"
         aria-label="Today versus INTER.act architecture diagram (enlarged)"
       ></object>
+    </div>
+
+    <div
+      class="lightbox"
+      id="archLightbox"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Architecture diagram enlarged"
+    >
+      <span class="close-hint">esc to close</span>
+      <div class="arch-lightbox-inner"></div>
     </div>
 
     <script>
@@ -1779,23 +1563,48 @@
       }
       document.addEventListener("DOMContentLoaded", () => new Combined());
 
-      /* Lightbox: click slide-2 diagram → enlarge; backdrop / Esc → close. */
+      /* Lightbox: click diagram → enlarge; backdrop / Esc → close. */
       (function () {
         const frame = document.getElementById("diagramFrame");
         const lb = document.getElementById("lightbox");
-        if (!frame || !lb) return;
-        const open = () => lb.classList.add("open");
-        const close = () => lb.classList.remove("open");
-        frame.addEventListener("click", open);
-        frame.addEventListener("keydown", (e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            open();
-          }
-        });
-        lb.addEventListener("click", close);
+        const archFrame = document.getElementById("archFrame");
+        const archLb = document.getElementById("archLightbox");
+
+        function setupLightbox(trigger, box, cloneSvg) {
+          if (!trigger || !box) return;
+          const open = () => {
+            if (cloneSvg) {
+              const svg = trigger.querySelector("svg.arch-svg");
+              const inner = box.querySelector(".arch-lightbox-inner");
+              if (svg && inner) {
+                inner.innerHTML = "";
+                const clone = svg.cloneNode(true);
+                clone.removeAttribute("class");
+                clone.style.width = "98vw";
+                clone.style.maxHeight = "94vh";
+                clone.style.background = "white";
+                clone.style.borderRadius = "4px";
+                inner.appendChild(clone);
+              }
+            }
+            box.classList.add("open");
+          };
+          const close = () => box.classList.remove("open");
+          trigger.addEventListener("click", open);
+          trigger.addEventListener("keydown", (e) => {
+            if (e.key === "Enter" || e.key === " ") { e.preventDefault(); open(); }
+          });
+          box.addEventListener("click", close);
+        }
+
+        setupLightbox(frame, lb, false);
+        setupLightbox(archFrame, archLb, true);
+
         document.addEventListener("keydown", (e) => {
-          if (e.key === "Escape") close();
+          if (e.key === "Escape") {
+            if (lb) lb.classList.remove("open");
+            if (archLb) archLb.classList.remove("open");
+          }
         });
       })();
     </script>
