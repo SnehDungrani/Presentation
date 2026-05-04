@@ -135,26 +135,31 @@
       }
       #goal-slide-fix .diagram-frame {
         margin-top: 0.5rem;
-        max-height: clamp(240px, 48vh, 480px);
+        max-height: clamp(300px, 55vh, 520px);
       }
       #goal-slide-fix .diagram-frame object,
       #goal-slide-fix .diagram-frame img {
-        max-height: clamp(220px, 44vh, 440px);
+        max-height: clamp(280px, 52vh, 480px);
       }
 
       /* Lightbox refinement for Slide 3 */
       .lightbox {
-        align-items: flex-start !important; /* Priority: Top visibility */
+        align-items: center !important;
         justify-content: center !important;
-        padding-top: clamp(6rem, 15vh, 10rem) !important; /* Push top down to clear button */
-        overflow: hidden !important; /* "Crop from bottom" if too tall */
+        padding: 2rem !important;
+        overflow-y: auto !important; /* Allow scroll if extremely tall */
       }
       .lightbox object,
       .lightbox img {
-        max-height: 200vh !important; /* Allow vertical overflow to be cropped at bottom */
-        max-width: 95vw !important;
+        width: 98vw !important;
+        max-width: none !important;
+        height: auto !important;
+        max-height: 94vh !important;
+        object-fit: contain !important;
         transform: none !important;
         margin: 0 auto !important;
+        background: white; /* Ensure diagram bg is clean */
+        border-radius: 4px;
       }
       .lightbox .close-hint {
         z-index: 10001 !important;
@@ -386,6 +391,90 @@
       .demo-factory .node .role {
         white-space: nowrap;
       }
+    
+      /* ==========================================================
+         SLIDE 2 - INTRODUCTION
+         Two stacked cards (problem + walkthrough) plus a one-line
+         lede.
+         ========================================================== */
+      .intro-page .slide-content {
+        justify-content: center;
+        gap: clamp(1rem, 2vw, 1.5rem);
+      }
+      .intro-page .lede {
+        font-size: clamp(1rem, 1.55vw, 1.25rem);
+        line-height: 1.6;
+        color: var(--text-primary);
+        max-width: 88ch;
+        font-weight: 400;
+      }
+      .intro-page .lede strong {
+        color: var(--green);
+        font-weight: 700;
+      }
+      .intro-cards {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: clamp(0.7rem, 1.6vw, 1.2rem);
+        margin-top: var(--element-gap);
+      }
+      @media (max-width: 800px) {
+        .intro-cards { grid-template-columns: 1fr; }
+      }
+      .intro-card {
+        padding: 0.85em 1.05em;
+        background: var(--bg-panel);
+        border: 1px solid var(--border);
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        gap: 0.4em;
+      }
+      .intro-card.problem { border-left: 3px solid var(--magenta); }
+      .intro-card.walk { border-left: 3px solid var(--green); }
+      .intro-card .label {
+        font-family: var(--font-mono);
+        font-size: 0.72rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--text-dim);
+      }
+      .intro-card.problem .label { color: var(--magenta); }
+      .intro-card.walk .label { color: var(--green); }
+      .intro-card p {
+        font-size: clamp(0.88rem, 1.25vw, 1rem);
+        line-height: 1.55;
+        color: var(--text-secondary);
+        margin: 0;
+      }
+      .intro-card p strong { color: var(--text-primary); font-weight: 600; }
+      .intro-card ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.35em 1em;
+      }
+      .intro-card ul li {
+        font-family: var(--font-mono);
+        font-size: 0.82rem;
+        color: var(--text-secondary);
+        position: relative;
+        padding-left: 1em;
+        line-height: 1.45;
+      }
+      .intro-card ul li::before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: var(--green);
+      }
+      .intro-card ul li em {
+        font-style: italic;
+        color: var(--text-dim);
+      }
+
     </style>
   </head>
   <body>
@@ -468,8 +557,57 @@
       </div>
 
       <div class="slide-number" style="color: #888">
-        01<span class="of"> / 09</span>
+        01<span class="of"> / 10</span>
       </div>
+    </section>
+
+    <!-- =============================================
+     SLIDE 2 - INTRODUCTION (NEW)
+     ============================================= -->
+    <section class="slide intro-page">
+      <header class="chrome">
+        <span class="dot r"></span><span class="dot y"></span><span class="dot g"></span>
+        <span class="path">~/Inter-Act/02-introduction</span>
+        <span class="branch"></span>
+      </header>
+
+      <div class="slide-content">
+        <p class="eyebrow reveal">Introduction</p>
+        <h2 class="section-title reveal">
+          What is INTER<span style="color: var(--green)">.</span>act?
+        </h2>
+
+        <p class="reveal lede">
+          Inter.act is a <strong>browser-based factory simulator</strong> where every
+          robot - <strong>arm, vehicle, conveyor</strong> - has its own small AI
+          brain and figures out the work with its neighbours, instead of
+          waiting for a central controller to tell it what to do.
+        </p>
+
+        <div class="intro-cards reveal">
+          <div class="intro-card problem">
+            <span class="label">The problem we're working on</span>
+            <p>
+              A single central controller stops scaling the moment you add
+              <strong>distance, latency, or unreliable links</strong>. We're building
+              the alternative.
+            </p>
+          </div>
+
+          <div class="intro-card walk">
+            <span class="label">We'll walk you through</span>
+            <ul>
+              <li>Why we picked this problem</li>
+              <li>Where we want to land</li>
+              <li>What we've built <em>(live demo)</em></li>
+              <li>What comes next</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="slide-number">
+        02<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -480,7 +618,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/02-imagine</span>
+        <span class="path">~/Inter-Act/03-imagine</span>
         <span class="branch"></span>
       </header>
 
@@ -544,7 +682,8 @@
         </div>
       </div>
 
-      <div class="slide-number">02<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        03<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -555,7 +694,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/03-goal</span>
+        <span class="path">~/Inter-Act/04-goal</span>
         <span class="branch"></span>
       </header>
 
@@ -605,7 +744,8 @@
 
       </div>
 
-      <div class="slide-number">03<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        04<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -615,7 +755,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/04-phases</span>
+        <span class="path">~/Inter-Act/05-phases</span>
         <span class="branch"></span>
       </header>
 
@@ -693,7 +833,8 @@
         </div>
       </div>
 
-      <div class="slide-number">04<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        05<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -703,7 +844,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/05-architecture</span>
+        <span class="path">~/Inter-Act/06-architecture</span>
         <span class="branch"></span>
       </header>
 
@@ -1096,7 +1237,8 @@
         </div>
       </div>
 
-      <div class="slide-number">05<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        06<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1106,7 +1248,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/06-demo</span>
+        <span class="path">~/Inter-Act/07-demo</span>
         <span class="branch"></span>
       </header>
 
@@ -1349,7 +1491,8 @@
         <span class="url reveal">http://localhost:8080/</span>
       </div>
 
-      <div class="slide-number">06<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        07<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1359,7 +1502,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/07-built</span>
+        <span class="path">~/Inter-Act/08-built</span>
         <span class="branch"></span>
       </header>
 
@@ -1430,7 +1573,8 @@
         </div>
       </div>
 
-      <div class="slide-number">07<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        08<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1440,7 +1584,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/08-future</span>
+        <span class="path">~/Inter-Act/09-future</span>
         <span class="branch"></span>
       </header>
 
@@ -1500,7 +1644,8 @@
         </div>
       </div>
 
-      <div class="slide-number">08<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        09<span class="of"> / 10</span></div>
     </section>
 
     <!-- =============================================
@@ -1510,7 +1655,7 @@
       <header class="chrome">
         <span class="dot r"></span><span class="dot y"></span
         ><span class="dot g"></span>
-        <span class="path">~/Inter-Act/09-thanks</span>
+        <span class="path">~/Inter-Act/10-thanks</span>
         <span class="branch"></span>
       </header>
 
@@ -1538,7 +1683,8 @@
         </p>
       </div>
 
-      <div class="slide-number">09<span class="of"> / 09</span></div>
+      <div class="slide-number">
+        10<span class="of"> / 10</span></div>
     </section>
 
     <div

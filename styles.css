@@ -1,11 +1,11 @@
 /* ===========================================
-   INTER.act presentation — shared stylesheet
+   INTER.act presentation - shared stylesheet
    Light theme, editorial + technical accents.
    Linked by every slide-N.html and index.html.
    =========================================== */
 
 :root {
-    /* Palette — warm cream paper, ink black, jade green accent */
+    /* Palette - warm cream paper, ink black, jade green accent */
     --bg-primary: #faf9f7;
     --bg-panel: #ffffff;
     --bg-elevated: #f1f3f5;
@@ -18,7 +18,8 @@
 
     --green: #2da44e;
     --green-glow: rgba(45, 164, 78, 0.18);
-    --amber: #8a6300; /* darkened from #bf8700 for WCAG 4.5:1 contrast on cream bg */
+    --amber: #8a6300;
+    /* darkened from #bf8700 for WCAG 4.5:1 contrast on cream bg */
     --magenta: #bf3989;
     --cyan: #0969da;
     --red: #cf222e;
@@ -62,7 +63,7 @@ body {
 }
 
 /* ===========================================
-   SLIDE FRAME — locks each page to viewport
+   SLIDE FRAME - locks each page to viewport
    =========================================== */
 .slide {
     width: 100vw;
@@ -124,7 +125,7 @@ body {
     }
 }
 
-/* Subtle paper texture / depth — no AI gradient slop */
+/* Subtle paper texture / depth - no AI gradient slop */
 .slide::after {
     content: '';
     position: absolute;
@@ -144,7 +145,7 @@ body {
 }
 
 /* ===========================================
-   PAGE CHROME — top bar, nav, slide number
+   PAGE CHROME - top bar, nav, slide number
    =========================================== */
 .chrome {
     position: absolute;
@@ -231,7 +232,7 @@ body {
 }
 
 /* ===========================================
-   REVEAL ANIMATIONS — page-load staggered
+   REVEAL ANIMATIONS - page-load staggered
    =========================================== */
 .reveal {
     opacity: 0;
@@ -690,7 +691,7 @@ kbd {
     letter-spacing: 0.08em;
 }
 
-/* Stealth hotspot — invisible link wrapper around a .stat tile.
+/* Stealth hotspot - invisible link wrapper around a .stat tile.
    Matches the surrounding stats exactly: no underline, no color shift,
    no hover effect, default cursor. The viewer doesn't see a clickable
    target, but the tile is keyboard-focusable and clickable. */
@@ -807,7 +808,7 @@ kbd {
 }
 
 /* ===========================================
-   BULLETS — terminal style
+   BULLETS - terminal style
    =========================================== */
 .bullet-list {
     list-style: none;
@@ -856,7 +857,7 @@ kbd {
 }
 
 /* ===========================================
-   TITLE SLIDE — DIGITAL TECHNOLOGIES branding
+   TITLE SLIDE - DIGITAL TECHNOLOGIES branding
    =========================================== */
 .title-cover {
     padding: 0;
@@ -870,7 +871,7 @@ kbd {
     justify-content: flex-start;
 }
 
-/* Title slide is intentionally chrome-free — banner is the header.
+/* Title slide is intentionally chrome-free - banner is the header.
    Keep the elements in DOM (nav.js reads links) but hide them visually. */
 .title-cover .chrome {
     display: none;
@@ -891,7 +892,7 @@ kbd {
     flex: 0 0 auto;
     width: 100%;
     /* Cap so banner never eats more than ~38% of slide height on tall viewports;
-       image keeps its natural 5.6:1 aspect — nothing cropped, nothing clipped. */
+       image keeps its natural 5.6:1 aspect - nothing cropped, nothing clipped. */
     max-height: 38vh;
     overflow: hidden;
     background: #2c8c8c;
@@ -923,7 +924,7 @@ kbd {
     }
 }
 
-/* Cover body — Inter.act + brand row + partners strip */
+/* Cover body - Inter.act + brand row + partners strip */
 .cover-body {
     flex: 1;
     display: grid;
@@ -1027,21 +1028,21 @@ kbd {
     height: clamp(20px, 2.4vw, 30px);
 }
 
-/* Title-slide chrome — keep the same opaque look as every other slide
+/* Title-slide chrome - keep the same opaque look as every other slide
    (no see-through over the banner; banner sits cleanly below it). */
 
 /* ===========================================
-   PROBLEM / MOTIVATION SLIDE — SVG diagram frame
+   PROBLEM / MOTIVATION SLIDE - SVG diagram frame
    =========================================== */
 .diagram-frame {
-    background: #0d0d0d;
+    background: var(--bg-panel);
     border: 1px solid var(--border);
     border-radius: 12px;
-    padding: clamp(0.6rem, 1.4vw, 1rem);
+    padding: clamp(0.5rem, 1vw, 0.8rem);
     overflow: hidden;
     display: grid;
     place-items: center;
-    box-shadow: 0 12px 36px rgba(0, 0, 0, 0.08);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     cursor: zoom-in;
     position: relative;
     transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease);
@@ -1058,9 +1059,9 @@ kbd {
     right: clamp(0.4rem, 1vw, 0.8rem);
     font-family: var(--font-mono);
     font-size: var(--small-size);
-    color: rgba(255, 255, 255, 0.7);
-    background: rgba(255, 255, 255, 0.08);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    color: var(--green);
+    background: rgba(255, 255, 255, 0.9);
+    border: 1px solid var(--green);
     padding: 0.3em 0.7em;
     border-radius: 4px;
     backdrop-filter: blur(4px);
@@ -1081,7 +1082,7 @@ kbd {
     pointer-events: none;
 }
 
-/* Lightbox modal — full-viewport zoom view */
+/* Lightbox modal - full-viewport zoom view */
 .lightbox {
     position: fixed;
     inset: 0;
@@ -1236,7 +1237,7 @@ kbd {
 }
 
 /* ===========================================
-   PHASE CARDS — Project epics, traffic-light colors (slide 3)
+   PHASE CARDS - Project epics, traffic-light colors (slide 3)
    =========================================== */
 .phases {
     display: grid;
@@ -1528,7 +1529,7 @@ kbd {
 
 .demo-focal h2 {
     font-family: var(--font-display);
-    /* Smaller than v1 — the factory row + 3 cards + button now share the slide,
+    /* Smaller than v1 - the factory row + 3 cards + button now share the slide,
        so the headline can't dominate the viewport or it crowds them out. */
     font-size: clamp(1.6rem, 4vw, 3.2rem);
     font-weight: 700;
