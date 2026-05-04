@@ -215,7 +215,7 @@
       }
 
       /* ===========================================
-         INTRODUCTION SLIDE (Imagine - moon base)
+         INTRODUCTION SLIDE (Imagine - warehouse base)
          =========================================== */
       .intro-slide .slide-content {
         justify-content: flex-start;
@@ -236,11 +236,11 @@
         .intro-grid {
           grid-template-columns: 1fr;
         }
-        .intro-moon {
+        .intro-warehouse {
           order: -1;
           justify-content: center;
         }
-        .intro-moon-frame {
+        .intro-warehouse-frame {
           margin-left: auto;
           margin-right: auto;
         }
@@ -295,8 +295,8 @@
         border-left: 3px solid var(--green);
       }
 
-      /* ----- Porthole-framed moon image ----- */
-      .intro-moon {
+      /* ----- Porthole-framed warehouse image ----- */
+      .intro-warehouse {
         position: relative;
         display: flex;
         align-items: center;
@@ -310,7 +310,7 @@
         overflow: visible;
       }
 
-      .intro-moon-frame {
+      .intro-warehouse-frame {
         position: relative;
         width: 100%;
         height: 100%;
@@ -328,7 +328,7 @@
           0 18px 36px rgba(0, 0, 0, 0.18);
         z-index: 2;
       }
-      .intro-moon-frame img {
+      .intro-warehouse-frame img {
         width: 100%;
         height: 100%;
         object-fit: cover;
@@ -336,7 +336,7 @@
         border-radius: 50%;
         filter: contrast(1.04) saturate(0.95);
       }
-      .intro-moon-glass {
+      .intro-warehouse-glass {
         position: absolute;
         inset: 0;
         border-radius: 50%;
@@ -350,7 +350,7 @@
         z-index: 3;
       }
 
-      .intro-moon-orbit {
+      .intro-warehouse-orbit {
         position: absolute;
         inset: -24px;
         border-radius: 50%;
@@ -359,7 +359,7 @@
         pointer-events: none;
         z-index: 1;
       }
-      .intro-moon-orbit::before {
+      .intro-warehouse-orbit::before {
         content: "";
         position: absolute;
         width: 11px;
@@ -373,14 +373,14 @@
           0 0 14px var(--green),
           0 0 26px rgba(45, 164, 78, 0.55);
       }
-      .intro-moon-orbit.outer {
+      .intro-warehouse-orbit.outer {
         inset: -42px;
         border-style: dotted;
         border-color: rgba(45, 164, 78, 0.33);
         animation-duration: 64s;
         animation-direction: reverse;
       }
-      .intro-moon-orbit.outer::before {
+      .intro-warehouse-orbit.outer::before {
         width: 7px;
         height: 7px;
         top: 0;
@@ -395,7 +395,7 @@
         }
       }
       @media (prefers-reduced-motion: reduce) {
-        .intro-moon-orbit {
+        .intro-warehouse-orbit {
           animation: none;
         }
       }
@@ -627,7 +627,7 @@
     </section>
 
     <!-- =============================================
-     SLIDE 3 - IMAGINE (moon base opener)
+     SLIDE 3 - IMAGINE (warehouse base opener)
      Per Alex: removed "These actors are autonomous" sentence -
      it contradicts the flow (next sentence says current approach
      is central). That sentence moves to slide 4 as conclusion.
@@ -643,7 +643,7 @@
       <div class="slide-content">
         <p class="eyebrow reveal">Imagine</p>
         <h2 class="section-title reveal">
-          A base in <span style="color: var(--green)">space</span>
+          A base in <span style="color: var(--green)">warehouse</span>
         </h2>
 
         <div class="intro-grid">
@@ -679,15 +679,15 @@
             </p>
           </div>
 
-          <div class="intro-moon reveal" aria-hidden="true">
-            <div class="intro-moon-frame">
+          <div class="intro-warehouse reveal" aria-hidden="true">
+            <div class="intro-warehouse-frame">
               <img
-                src="assets/moon.png"
-                alt="A base in space - multiple actors with their own jobs"
+                src="assets/warehouse.png"
+                alt="A base in warehouse - multiple actors with their own jobs"
               />
-              <span class="intro-moon-glass"></span>
-              <span class="intro-moon-orbit"></span>
-              <span class="intro-moon-orbit outer"></span>
+              <span class="intro-warehouse-glass"></span>
+              <span class="intro-warehouse-orbit"></span>
+              <span class="intro-warehouse-orbit outer"></span>
             </div>
           </div>
         </div>
