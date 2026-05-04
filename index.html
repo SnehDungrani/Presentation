@@ -846,7 +846,7 @@
             <h3>Simulation</h3>
             <p>
               A virtual warehouse floor with arms, shuttles, and conveyors.
-              Live state, a fail/recover lifecycle, and one
+              Live state, a <strong>fail/recover lifecycle</strong>, and one
               <em>Docker container</em> per actor - one isolated service
               each. The base is solid; a Node-RED style builder is what's
               next.
@@ -861,10 +861,10 @@
             </div>
             <h3>AI integration</h3>
             <p>
-              Each actor gets its own small on-device brain running locally via
-              Ollama. The brain interprets messages from the temporary backend
-              and decides <em>when</em> and <em>which</em> script to run; the
-              script handles <em>how</em>.
+              Each actor gets its own <strong>small on-device brain</strong>
+              running locally via Ollama. The brain interprets messages from
+              the temporary backend and decides <em>when</em> and
+              <em>which</em> script to run; the script handles <em>how</em>.
             </p>
             <span class="phase-tag">Sprint 3 · active</span>
           </div>
@@ -876,9 +876,9 @@
             </div>
             <h3>Actor coordination</h3>
             <p>
-              The temporary backend goes away. Actors work out handovers between
-              themselves on a shared message bus; the observer only steps in
-              when peers get stuck.
+              The temporary backend goes away. Actors work out handovers
+              between themselves on a <strong>shared message bus</strong>;
+              the observer only steps in when peers get stuck.
             </p>
             <span class="phase-tag">Sprint 4+ · next up</span>
           </div>
@@ -1910,8 +1910,8 @@
             <ul>
               <li>
                 The shared message bus from the architecture diagram becomes
-                real - actors negotiate handovers directly, no backend in the
-                loop.
+                real - actors negotiate handovers directly, <strong>no
+                backend in the loop</strong>.
               </li>
               <li>
                 Each actor advertises what it can reach and offer; chains
@@ -1930,7 +1930,8 @@
             <h3>Node-RED-style builder</h3>
             <ul>
               <li>
-                Drag-and-drop actors, so nobody has to hand-edit YAML or code.
+                <strong>Drag-and-drop</strong> actors, so nobody has to
+                hand-edit YAML or code.
               </li>
               <li>Parallel routes instead of one linear chain.</li>
               <li>
@@ -1944,8 +1945,9 @@
             <h3>Limitations &amp; fallback</h3>
             <ul>
               <li>
-                Per-actor fallback: what each actor does when its brain can't
-                decide, when the bus drops messages, when a peer goes silent.
+                <strong>Per-actor fallback</strong>: what each actor does
+                when its brain can't decide, when the bus drops messages,
+                when a peer goes silent.
               </li>
               <li>
                 Negative tests: routing deadlocks, failed handovers, brain
