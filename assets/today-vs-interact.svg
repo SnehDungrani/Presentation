@@ -114,7 +114,7 @@
   <!-- Summary box -->
   <rect x="502" y="234" width="458" height="114" rx="8" fill="none" stroke="#aaaaaa" stroke-width="0.8"/>
   <text x="731" y="258" text-anchor="middle" font-size="12" fill="#111111">Every actor reasons independently</text>
-  <text x="731" y="278" text-anchor="middle" font-size="12" fill="#111111">Any actor can negotiate directly with any other</text>
+  <text x="731" y="278" text-anchor="middle" font-size="12" fill="#111111">Any actor can negotiate directly with each other</text>
   <text x="731" y="298" text-anchor="middle" font-size="12" fill="#111111">Chains self-assemble through peer requests</text>
   <text x="731" y="318" text-anchor="middle" font-size="12" fill="#111111">Observer sets goal, observes - steps in only on deadlock</text>
   <text x="731" y="338" text-anchor="middle" font-size="12" fill="#111111">No routing through observer</text>
