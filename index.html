@@ -590,8 +590,8 @@
     <!-- =============================================
      SLIDE 2 - INTRODUCTION
      Rephrased per Alex: digital twin, not factory simulator.
-     Problem reframed: scaling fails with many actors due to
-     latency + unreliable links + computational power.
+     Problem reframed: real driver is COMPLEXITY → DEADLOCK, not latency/links/compute.
+     Goal: non-deterministic, self-developing solutions.
      ============================================= -->
     <section class="slide intro-page">
       <header class="chrome">
@@ -620,12 +620,19 @@
           <div class="intro-card problem">
             <span class="label">The problem we're working on</span>
             <p>
-              A single central controller <strong>stops scaling</strong> once
-              you add a large amount of actors - because of
-              <strong
-                >latency, unreliable links, and the computational power</strong
+              A single central controller cannot keep up with
+              <strong>growing system complexity</strong>. With many actors and
+              unpredictable combinations of states, you cannot pre-define every
+              outcome - and the system <strong>deadlocks</strong> on situations
+              the controller was never programmed for.
+            </p>
+            <p>
+              Our goal is a system that finds
+              <span class="green-accent"
+                >non-deterministic solutions on its own</span
               >
-              demanded from a single system.
+              - one that self-develops a way forward, without every path being
+              hard-coded ahead of time.
             </p>
           </div>
 
